@@ -12,8 +12,8 @@ float ambientIntensity = 1.0;
 float specularSize = 4;
 float lightShiningPower = 1;
 float bumpMapFactor = 1;
-float specularFadeStart = 25;
-float specularFadeEnd = 500; 
+float specularFadeStart = 15;
+float specularFadeEnd = 350; 
 float textureSize = 512.0;
 texture skyBoxTexture1;
 texture skyBoxTexture2;
@@ -121,7 +121,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	
 	// Distance fade calculation
     float DistanceFromCamera = MTACalcCameraDistance(gCameraPosition, output.worldPosition);
-    output.DistFade = MTAUnlerp(specularFadeEnd, specularFadeStart, 1.0f);
+    output.DistFade = lerp(specularFadeEnd, specularFadeStart, 1.0f);
 	
 	float4 vertexPosition = mul(float4(input.Position, 1), gWorld);
 	
@@ -148,15 +148,14 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 finalSkyColor = (skyColor2 * fadeValue) + (skyColor1 * (1 - fadeValue));
 	finalSkyColor *= rainLevel;
 	
-	// Using Blinn half angle modification for performance over correctness
+	// Using Blinn half angle modification for performance over correctness	
     float3 lightRange = normalize(normalize(gCameraPosition - input.worldPosition) - input.lightDirection);
     float specularLight = pow(saturate(dot(lightRange, normalMap)), specularSize * 2);
-	float4 specularColor = float4(specularLight, specularLight, specularLight, 1);
+	float4 specularColor = float4(ambientColor.rgb * specularLight, 1);
 	specularColor += pow(saturate(dot(lightRange, input.worldNormal)), specularSize / 2) / 2;
 	specularColor += finalSkyColor;
-	specularColor /= 2;
+	specularColor /= 1.5;
 	specularColor *= mainColor.g;
-	specularColor.rgb *= ambientColor.rgb * ambientIntensity;
 	
 	float4 shadowBrightness = saturate(input.Color + shadowColor);
 	float4 finalColor = mainColor * shadowBrightness;

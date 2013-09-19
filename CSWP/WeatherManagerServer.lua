@@ -10,9 +10,16 @@ local currentWeatherTable = {}
 local nextWeatherTable = {}
 local weatherTable = {}
 local settingsTable = {}
+local currentDayTime = "day"
+local currentWeather = "sunny"
+local weatherStates = {"sunny", "cloudy", "rainy", "stormy"}
 local hour, minute = 0, 0
 local gameSpeed = 1
 
+function initWeather()
+	handleDynamicWeather()
+end
+addEventHandler("onResourceStart", resourceRoot, initWeather)
 
 function updateTime()
 	hour, minute = getTime()
@@ -32,10 +39,12 @@ function updateTime()
 	
 	handleLightColor()
 	handleAmbientColor()
+	handleSkyTexture()
 	handleFog()
 	handleRain()
 	handleWindVelocity()
 	handleSunPosition()
+	handleDayTime()
 	syncToClients()
 end
 setTimer(updateTime, refreshTime, 0)
@@ -123,6 +132,10 @@ function handleAmbientColor()
 	weatherTable.lightAmbient = {currentR, currentG, currentB, currentA}
 end
 
+function handleSkyTexture()
+
+end
+
 function handleFog()
 	local firstFog = currentWeatherTable.fogStart
 	local secondFog = nextWeatherTable.fogStart
@@ -183,9 +196,59 @@ function handleSunPosition()
 	weatherTable.sunPos = {currentX, currentY, currentZ}
 end
 
+function handleDynamicWeather()
+	local weatherVar = math.random(1, 4)
+	setWeather(weatherStates[weatherVar])
+	local nextCheck = math.random(300000, 900000)
+	setTimer(handleDynamicWeather, nextCheck, 1)
+end
+
+function handleDayTime()
+	if (hour >= 0) and (hour <= 3) or (hour == 23) then
+		setDayTime("night")
+	end
+	
+	if (hour >= 4) and (hour <= 8) then
+		setDayTime("morning")
+	end
+	
+	if (hour >= 9) and (hour <= 19) then
+		setDayTime("day")
+	end
+	
+	if (hour >= 20) and (hour <= 22) then
+		setDayTime("evening")
+	end
+end
+
 function syncToClients()
 	triggerClientEvent("onWeatherSync", root, weatherTable)
 	triggerClientEvent("getServerSettings", root, settingsTable)
 end
 addEvent("onClientRequestWeatherSync", true )
 addEventHandler("onClientRequestWeatherSync", root, syncToClients)
+
+function setDayTime(dayTime)
+	if (dayTime) then
+		currentDayTime = dayTime
+	end
+end
+
+function getDayTime()
+	return currentDayTime
+end
+
+function setWeather(weather)
+	if (weather) then
+		currentWeather = weather
+	end
+end
+
+function getWeather()
+	return currentWeather
+end
+
+function debugWeather()
+	outputChatBox("Daytime: " .. getDayTime() .. ", Weather: " .. getWeather(), root)
+end
+setTimer(debugWeather, 1000, 0)
