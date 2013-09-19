@@ -1,0 +1,18 @@
+<help>
+[CSWP] Community Shader Weather Pack by Sam@ke / Ren_172
+		
+Version: 0.1
+Revision: 9
+State: Alpha
+
+Configurations:
+"F2" Opens shader panel
+"F3" Quick disable all shaders (for comparing)
+"I" starts new demo record
+"O" press for saving coords for demo (one for start and one for end)
+"U" play demo
+
+Keys are configurable into script files!!!
+All shaders can be enabled/disabled by client ("F2" Panel") and for 
+whole server (Admin Panel).
+</help>

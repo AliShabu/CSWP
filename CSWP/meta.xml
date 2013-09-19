@@ -1,0 +1,104 @@
+<meta>
+	<info name ="CSWP" description="Community Shader Weather Pack" version="0.1 Rev. 23" type="script" author="Sam@ke / Ren_172"/>
+	<min_mta_version client="1.3.3" server="1.3.3"/>
+	
+	<config src="help.xml" type="client"/>
+	
+	<!-- 3rd party resources  -->
+	<include resource="freecam" />
+	
+	<!-- server scripts  -->
+	<script src="WeatherManagerTables.lua" type="server"/>
+	<script src="WeatherManagerServer.lua" type="server"/>
+	
+	<!-- shared scripts  -->
+	<script src="WeatherManagerUtils.lua" type="shared"/>
+	
+	<!-- client scripts  -->
+	<script src="WeatherManagerClient.lua" type="client"/>
+	<script src="WeatherManagerShaders.lua" type="client"/>
+	<script src="WeatherManagerGUI.lua" type="client"/>
+	<script src="Benchmark.lua" type="client"/>
+	<script src="Demo.lua" type="client"/>
+
+	<!-- objects  -->
+	<file src="models/skybox/skybox_model.dff" type="client" />
+	<file src="models/skybox/skybox_model.txd" type="client" />
+	<file src="models/clouds/clouds.dff" type="client" />
+	<file src="models/clouds/clouds.txd" type="client" />
+	
+	<!-- textures  -->
+	<file src="textures/water/normal.png" type="client"/>
+	<file src="textures/grass/grass1.png" type="client"/>
+	<file src="textures/grass/grass2.png" type="client"/>
+	<file src="textures/env/sun.png" type="client" />
+	<file src="textures/sky/sky0.dds" type="client" />
+	<file src="textures/sky/sky1.dds" type="client" />
+	<file src="textures/sky/sky2.dds" type="client" />
+	<file src="textures/sky/sky3.dds" type="client" />
+	<file src="textures/sky/sky4.dds" type="client" />
+	<file src="textures/sky/sky5.dds" type="client" />
+	<file src="textures/sky/sky6.dds" type="client" />
+	<file src="textures/sky/sky7.dds" type="client" />
+	<file src="textures/sky/sky8.dds" type="client" />
+	<file src="textures/sky/sky9.dds" type="client" />
+	<file src="textures/sky/sky10.dds" type="client" />
+	<file src="textures/sky/sky11.dds" type="client" />
+	<file src="textures/sky/sky12.dds" type="client" />
+	<file src="textures/sky/sky13.dds" type="client" />
+	<file src="textures/sky/sky14.dds" type="client" />
+	<file src="textures/sky/sky15.dds" type="client" />
+	<file src="textures/sky/sky16.dds" type="client" />
+	<file src="textures/sky/sky17.dds" type="client" />
+	<file src="textures/sky/sky18.dds" type="client" />
+	<file src="textures/sky/sky19.dds" type="client" />
+	<file src="textures/sky/sky20.dds" type="client" />
+	<file src="textures/sky/sky21.dds" type="client" />
+	<file src="textures/sky/sky22.dds" type="client" />
+	<file src="textures/sky/sky23.dds" type="client" />
+
+	<!-- animated textures  -->
+	<file src="textures/water/water_caustic_1.png" type="client"/>
+	<file src="textures/water/water_caustic_2.png" type="client"/>
+	<file src="textures/water/water_caustic_3.png" type="client"/>
+	<file src="textures/water/water_caustic_4.png" type="client"/>
+	<file src="textures/water/water_caustic_5.png" type="client"/>
+	<file src="textures/water/water_caustic_6.png" type="client"/>
+	<file src="textures/water/water_caustic_7.png" type="client"/>
+	<file src="textures/water/water_caustic_8.png" type="client"/>
+	<file src="textures/water/water_caustic_9.png" type="client"/>
+	<file src="textures/water/water_caustic_10.png" type="client"/>
+	<file src="textures/water/water_caustic_11.png" type="client"/>
+	<file src="textures/water/water_caustic_12.png" type="client"/>
+	<file src="textures/water/water_caustic_13.png" type="client"/>
+	<file src="textures/water/water_caustic_14.png" type="client"/>
+	<file src="textures/water/water_caustic_15.png" type="client"/>
+	<file src="textures/water/water_caustic_16.png" type="client"/>
+	
+	<!-- shaders  -->
+	<file src="shaders/godrays.fx" type="client"/>
+	<file src="shaders/water.fx" type="client"/>
+	<file src="shaders/glass.fx" type="client"/>
+	<file src="shaders/car.fx" type="client"/>
+	<file src="shaders/dynamic_light.fx" type="client"/>
+	<file src="shaders/grass.fx" type="client"/>
+	<file src="shaders/skybox.fx" type="client"/>
+	<file src="shaders/sun_moon.fx" type="client"/>
+	<file src="shaders/depthmap.fx" type="client"/>
+	<file src="shaders/shadows.fx" type="client"/>
+	<file src="shaders/clear.fx" type="client"/>
+	<file src="shaders/mta-helper.fx" type="client"/>
+	
+	<!-- settings  -->
+	<settings>
+		<setting name="*showshaders" value="true" friendlyname="Show Shaders" group="General" desc="Enable/Disable shaders." />
+		<setting name="*showdynamicskyshader" value="true" friendlyname="Dynamic Sky Shader" group="Shaders" desc="Enable/Disable dynamic sky shader." />
+		<setting name="*showdynamiclightshader" value="true" friendlyname="Dynamic Light Shader" group="Shaders" desc="Enable/Disable dynamic light shader." />
+		<setting name="*showshadowshader" value="true" friendlyname="Shadow Shader" group="Shaders" desc="Enable/Disable shadows shader.." />
+		<setting name="*showgodrayshader" value="true" friendlyname="Godray Shader" group="Shaders" desc="Enable/Disable godray shader.." />
+		<setting name="*showwatershader" value="true" friendlyname="Water Shader" group="Shaders" desc="Enable/Disable water shader.." />
+		<setting name="*showcarshader" value="true" friendlyname="Car Shader" group="Shaders" desc="Enable/Disable car shaders." />
+		<setting name="*showglassshader" value="true" friendlyname="Glass Shader" group="Shaders" desc="Enable/Disable glass shader." />
+		<setting name="*showgrassshader" value="true" friendlyname="Grass Shader" group="Shaders" desc="Enable/Disable grass shader." />
+	</settings>
+</meta>
