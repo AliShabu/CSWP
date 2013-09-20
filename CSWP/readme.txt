@@ -28,6 +28,7 @@ Finished Features:
 - full dynamic sun
 - car reflections based on current skybox
 - normal/bump mapping
+- material wetness according rain strength
 - dynamic weather
 - glass reflections based on current skybox
 

@@ -68,7 +68,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     float lightIntensity = dot(output.worldNormal, -output.lightDirection);
 	
 	output.TexCoord = input.TexCoord;
-    output.Color = saturate(lightColor * lightIntensity);
+    output.Color = saturate(ambientColor * lightIntensity);
 	
 	// Distance fade calculation
     float DistanceFromCamera = MTACalcCameraDistance(gCameraPosition, output.worldPosition);
@@ -81,7 +81,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
 	
 	float4 mainColor = tex2D(MainSampler, input.TexCoord);
-	float wetness = bumpMapFactor + (rainLevel * 2);
+	float wetness = bumpMapFactor + (rainLevel * 3);
 	
 	float3 normalMap = 2 * MTACalcNormalMap(MainSampler, input.TexCoord.xy, mainColor, textureSize) - 1.0f;  
     normalMap = float3(normalMap.x * wetness, normalMap.y * wetness, normalMap.z);
@@ -90,9 +90,10 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	// Using Blinn half angle modification for performance over correctness	
     float3 lightRange = normalize(normalize(gCameraPosition - input.worldPosition) - input.lightDirection);
     float specularLight = pow(saturate(dot(lightRange, normalMap)), specularSize * 2);
-	float4 specularColor = float4(ambientColor.rgb * specularLight, 1);
+	float4 specularColor = float4(lightColor.rgb * specularLight, 1);
 	specularColor += pow(saturate(dot(lightRange, input.worldNormal)), specularSize / 2) / 2;
-	specularColor *= mainColor.g;
+	specularColor /= 1.5;
+	specularColor *= mainColor.g * mainColor.g;
 	
 	float4 shadowBrightness = saturate(input.Color + shadowColor);
 	float4 finalColor = mainColor * shadowBrightness;

@@ -30,7 +30,7 @@ lightColor = {0.85, 0.82, 0.8, 1.0}
 ambientColor = {0.82, 0.79, 0.77, 1.0}
 local ambientIntensity = 1.0
 local lightShiningPower = 1
-local lightBumpMapFactor = 0.75
+local lightBumpMapFactor = 0.7
 fogStart = 800
 local fogEnd = 3500
 

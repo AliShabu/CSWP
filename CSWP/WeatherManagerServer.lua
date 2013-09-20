@@ -1,5 +1,7 @@
 --//WEATHER MANAGER//--
 
+local isDebug = "false"
+
 -- // Main // --
 root = getRootElement()
 resourceRoot = getResourceRootElement(getThisResource())
@@ -249,6 +251,8 @@ function getWeather()
 end
 
 function debugWeather()
-	outputChatBox("Daytime: " .. getDayTime() .. ", Weather: " .. getWeather(), root)
+	if (isDebug == "true") then
+		outputChatBox("Daytime: " .. getDayTime() .. ", Weather: " .. getWeather(), root)
+	end
 end
 setTimer(debugWeather, 1000, 0)
