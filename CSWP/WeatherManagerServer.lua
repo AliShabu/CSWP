@@ -3,8 +3,6 @@
 local isDebug = "false"
 
 -- // Main // --
-root = getRootElement()
-resourceRoot = getResourceRootElement(getThisResource())
 
 -- // Settings // --
 local refreshTime = 1000 -- how often should be refreshed and synced to clients 
@@ -241,7 +239,7 @@ function syncToClients()
 	triggerClientEvent("onWeatherSync", root, weatherTable)
 	triggerClientEvent("getServerSettings", root, settingsTable)
 end
-addEvent("onClientRequestWeatherSync", true )
+addEvent("onClientRequestWeatherSync", true)
 addEventHandler("onClientRequestWeatherSync", root, syncToClients)
 
 function setDayTime(dayTime)

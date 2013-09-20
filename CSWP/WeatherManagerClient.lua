@@ -1,9 +1,6 @@
 -- // WEATHER MANAGER // --
 
 -- // Main // --
-root = getRootElement()
-resourceRoot = getResourceRootElement(getThisResource())
-player = getLocalPlayer()
 
 -- // Settings // --
 local showShadersServer = nil
@@ -117,9 +114,9 @@ addEventHandler("onWeatherSync", root, weatherManager)
 
 
 function requestServerData()
-	triggerServerEvent("onClientRequestWeatherSync", player)
+	triggerServerEvent("onClientRequestWeatherSync", root)
 end
-addEventHandler("onClientPlayerJoin", root, requestServerData)
+addEventHandler("onClientResourceStart", resourceRoot, requestServerData)
 
 
 function receiveResourceSettings(settingsTable)
