@@ -1,6 +1,6 @@
 --//WEATHER MANAGER//--
 
-local isDebug = "true"
+local isDebug = "false"
 
 -- // Main // --
 root = getRootElement()
