@@ -32,7 +32,7 @@ Finished Features:
 - dynamic weather
 - glass reflections based on current skybox
 - record demos (key "I")
-- recording demo camera flight (fly around with free cam and store waypoints by key "O"
+- while recording save waypoints (key "O")
 - play recorded demos (key "U")
 
 

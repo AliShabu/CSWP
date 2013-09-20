@@ -23,7 +23,8 @@ float waterBrightness = 1.0;
 float3 camPos = float3(0, 0, 0);
 float3 sunPos = float3(0, 0, 0);
 float4 sunColor = float4(0.0, 0.0, 0.0, 0.0);
-float waterShiningPower = 16;
+float specularSize = 4;
+float waterShiningPower = 1;
 float fogStart = 50;
 float fogEnd = 550;
 
@@ -131,6 +132,7 @@ struct PixelInputType
 	float Depth : TEXCOORD4;
 	float3 worldPosition : TEXCOORD5;
 	float3 lightDirection : TEXCOORD6;
+	float3 worldNormal : TEXCOORD7;
   
 };
 
@@ -147,6 +149,7 @@ PixelInputType WaterVertexShader(VertexInputType input)
     output.position = MTACalcScreenPosition(input.position);
 	output.worldPosition = MTACalcWorldPosition(input.position);
 	output.lightDirection = normalize(camPos - sunPos);
+	output.worldNormal = MTACalcWorldNormal(input.normal);
     
     // Store the texture coordinates for the pixel shader.
     output.textureCoords = input.textureCoords;
@@ -171,7 +174,7 @@ PixelInputType WaterVertexShader(VertexInputType input)
     float4 eyeVector = vertexPosition - gViewInverse[3]; 			
     output.skyTextureCoordinate = mul(eulRotate(skyRotate), eyeVector.xyz);
 	
-	output.Depth =  output.position.z;
+	output.Depth = output.position.z;
 
     return output;
 }
@@ -233,8 +236,9 @@ float4 WaterPixelShader(PixelInputType input) : COLOR0
 
 	// Using Blinn half angle modification for performance over correctness
     float3 lightRange = normalize(normalize(camPos - input.worldPosition) - input.lightDirection);
-    float specularLight = pow(saturate(dot(lightRange, normal)), waterShiningPower);
+    float specularLight = pow(saturate(dot(lightRange, normal)), specularSize * 2);
 	float4 specularColor = float4(sunColor.rgb * specularLight, 1);
+	specularColor += pow(saturate(dot(lightRange, input.worldNormal)), specularSize / 2) / 2;
 	specularColor *= normalMap.g * normalMap.g;
 	
     // Combine the reflection and refraction results for the final color.
@@ -244,7 +248,7 @@ float4 WaterPixelShader(PixelInputType input) : COLOR0
 	
 	float distanceFog = saturate((input.Depth - fogStart)/(fogEnd - fogStart));
 	float4 finalColor = lerp(float4(color.rgb, 1), float4(reflectionColor.rgb/2, 1), distanceFog);
-	finalColor.rgb += specularColor.rgb;
+	finalColor.rgb += specularColor.rgb * waterShiningPower;
 	finalColor.rgb *= waterBrightness;
 	finalColor.a *= waterAlpha;
 	

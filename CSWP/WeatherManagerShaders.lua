@@ -54,16 +54,16 @@ local waterShader, waterTec = nil, nil
 local waterFrame = 1
 local waterNormals = {}
 local waterCaustics = {}
-local waterColor = {0.19, 0.26, 0.28, 1}
+local waterColor = {0.18, 0.25, 0.28, 1}
 local waterAlpha = 0.85
 local waterBrightness = 0.7;
-local flowSpeed = 0.65
+local flowSpeed = 0.7
 local reflectScale = 1.0
 local refractScale = 1.0
-local reflectionStrength = 0.8
+local reflectionStrength = 0.7
 local refractionStrength = 1.3
-local causticStrength = 0.1
-local waterShiningPower = 4
+local causticStrength = 0.15
+local waterShiningPower = 0.8
 
 -- GLASS
 local glassShader, glassTec = nil, nil
