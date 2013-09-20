@@ -29,8 +29,8 @@ local shadowColor = {0.1, 0.1, 0.1, 1.0}
 lightColor = {0.85, 0.82, 0.8, 1.0}
 ambientColor = {0.82, 0.79, 0.77, 1.0}
 local ambientIntensity = 1.0
-local lightShiningPower = 0.8
-local lightBumpMapFactor = 0.7
+local lightShiningPower = 1
+local lightBumpMapFactor = 0.75
 fogStart = 800
 local fogEnd = 3500
 
@@ -483,10 +483,6 @@ function updateShaders()
 			dxSetShaderValue(dynamicLightShader, "ambientIntensity", ambientIntensity)
 			dxSetShaderValue(dynamicLightShader, "lightShiningPower", lightShiningPower)
 			dxSetShaderValue(dynamicLightShader, "bumpMapFactor", lightBumpMapFactor)
-			dxSetShaderValue(dynamicLightShader, "skyBoxTexture1", skyBoxTexture1)
-			dxSetShaderValue(dynamicLightShader, "skyBoxTexture2", skyBoxTexture2)
-			dxSetShaderValue(dynamicLightShader, "fadeValue", fadeValue)
-			dxSetShaderValue(dynamicLightShader, "skyRotate", {skyRotX, skyRotY, skyRotZ})
 			dxSetShaderValue(dynamicLightShader, "rainLevel", rainLevel)
 		end
 		

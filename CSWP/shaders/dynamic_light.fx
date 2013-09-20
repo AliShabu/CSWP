@@ -15,10 +15,6 @@ float bumpMapFactor = 1;
 float specularFadeStart = 15;
 float specularFadeEnd = 350; 
 float textureSize = 512.0;
-texture skyBoxTexture1;
-texture skyBoxTexture2;
-float3 skyRotate = float3(0, 0, 0);
-float fadeValue = 0;
 float rainLevel = 0;
 
 //---------------------------------------------------------------------
@@ -29,55 +25,11 @@ sampler MainSampler = sampler_state
     Texture = (gTexture0);
 };
 
-samplerCUBE SkyCubeSampler1 = sampler_state
-{
-    Texture = <skyBoxTexture1>;
-	MinFilter = Linear;
-    MagFilter = Linear;
-    MipFilter = Linear;
-	AddressU = Clamp;
-    AddressV = Clamp;
-};
-
-samplerCUBE SkyCubeSampler2 = sampler_state
-{
-    Texture = <skyBoxTexture2>;
-	MinFilter = Linear;
-    MagFilter = Linear;
-    MipFilter = Linear;
-	AddressU = Clamp;
-    AddressV = Clamp;
-};
-
-float3x3 eulRotate(float3 Rotate)
-{
-    float cosX,sinX;
-    float cosY,sinY;
-    float cosZ,sinZ;
-
-    sincos(Rotate.x,sinX,cosX);
-    sincos(-Rotate.y,sinY,cosY);
-    sincos(Rotate.z,sinZ,cosZ);
-
-//Euler extrinsic rotations 
-//http://www.vectoralgebra.info/eulermatrix.html
-
-
-		float3x3 rot = float3x3(
-		cosY * cosZ + sinX * sinY * sinZ, -cosX * sinZ,  sinX * cosY * sinZ - sinY * cosZ,
-		cosY * sinZ - sinX * sinY * cosZ,  cosX * cosZ, -sinY * sinZ - sinX * cosY * cosZ,
-		cosX * sinY,                       sinX,         cosX * cosY
-	);
-
-return rot;	
-}
-
 struct VertexShaderInput
 {
 	float3 Position : POSITION0;
 	float3 Normal : NORMAL0;
 	float2 TexCoord : TEXCOORD0;
-	float3 skyTextureCoordinate : TEXCOORD1;
 };
 
 struct VertexShaderOutput
@@ -91,7 +43,6 @@ struct VertexShaderOutput
 	float3 Binormal : TEXCOORD4;
 	float3 Tangent : TEXCOORD5;
 	float DistFade : TEXCOORD6;
-	float3 skyTextureCoordinate : TEXCOORD7;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
@@ -122,12 +73,6 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	// Distance fade calculation
     float DistanceFromCamera = MTACalcCameraDistance(gCameraPosition, output.worldPosition);
     output.DistFade = lerp(specularFadeEnd, specularFadeStart, 1.0f);
-	
-	float4 vertexPosition = mul(float4(input.Position, 1), gWorld);
-	
-	// compute the eye vector 
-    float4 eyeVector = vertexPosition - gViewInverse[3]; 			
-    output.skyTextureCoordinate = mul(eulRotate(skyRotate), eyeVector.xyz);
 
     return output;
 }
@@ -142,19 +87,11 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     normalMap = float3(normalMap.x * wetness, normalMap.y * wetness, normalMap.z);
     normalMap = normalize(normalMap.x * input.Tangent + normalMap.y * input.Binormal + input.worldNormal);
 	
-	input.skyTextureCoordinate.xyz = -input.skyTextureCoordinate.xyz;
-	float4 skyColor1 = texCUBE(SkyCubeSampler1, input.skyTextureCoordinate.yzx);
-	float4 skyColor2 = texCUBE(SkyCubeSampler2, input.skyTextureCoordinate.yzx);	
-	float4 finalSkyColor = (skyColor2 * fadeValue) + (skyColor1 * (1 - fadeValue));
-	finalSkyColor *= rainLevel;
-	
 	// Using Blinn half angle modification for performance over correctness	
     float3 lightRange = normalize(normalize(gCameraPosition - input.worldPosition) - input.lightDirection);
     float specularLight = pow(saturate(dot(lightRange, normalMap)), specularSize * 2);
 	float4 specularColor = float4(ambientColor.rgb * specularLight, 1);
 	specularColor += pow(saturate(dot(lightRange, input.worldNormal)), specularSize / 2) / 2;
-	specularColor += finalSkyColor;
-	specularColor /= 1.5;
 	specularColor *= mainColor.g;
 	
 	float4 shadowBrightness = saturate(input.Color + shadowColor);

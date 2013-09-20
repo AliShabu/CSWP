@@ -234,7 +234,7 @@ float4 WaterPixelShader(PixelInputType input) : COLOR0
 	// Using Blinn half angle modification for performance over correctness
     float3 lightRange = normalize(normalize(camPos - input.worldPosition) - input.lightDirection);
     float specularLight = pow(saturate(dot(lightRange, normal)), waterShiningPower);
-	float4 specularColor = float4(specularLight, specularLight, specularLight, 1);
+	float4 specularColor = float4(sunColor.rgb * specularLight, 1);
 	specularColor *= normalMap.g * normalMap.g;
 	
     // Combine the reflection and refraction results for the final color.
@@ -258,8 +258,8 @@ technique WaterTechnique
 {
     pass pass0
     {
-		VertexShader = compile vs_2_0 WaterVertexShader();
-        PixelShader = compile ps_2_0 WaterPixelShader();
+		VertexShader = compile vs_3_0 WaterVertexShader();
+        PixelShader = compile ps_3_0 WaterPixelShader();
     }
 }
 
