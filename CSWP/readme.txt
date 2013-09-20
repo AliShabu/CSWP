@@ -62,6 +62,7 @@ Person´s who helped with project (directly or indirectly):
 
 - Ren_172
 - Jusonex
+- sbx320
 - Krischkros
 - Guy who´s making "mta_helper.fx" xD
 
