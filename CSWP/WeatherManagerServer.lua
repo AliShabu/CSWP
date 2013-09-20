@@ -1,6 +1,6 @@
 --//WEATHER MANAGER//--
 
-local isDebug = "false"
+local isDebug = "true"
 
 -- // Main // --
 root = getRootElement()
@@ -14,7 +14,7 @@ local weatherTable = {}
 local settingsTable = {}
 local currentDayTime = "day"
 local currentWeather = "sunny"
-local weatherStates = {"sunny", "cloudy", "rainy", "stormy"}
+local weatherStates = {"hot", "sunny", "cloudy", "rainy", "stormy"}
 local hour, minute = 0, 0
 local gameSpeed = 1
 
@@ -36,8 +36,8 @@ function updateTime()
 	local currentMinuteSpeed = 1000/gameSpeed
 	setMinuteDuration(currentMinuteSpeed)
 	
-	currentWeatherTable = weatherSettings["_" .. hour]
-	nextWeatherTable = weatherSettings["_" .. comingHour]
+	currentWeatherTable = defaultSettings["_" .. hour]
+	nextWeatherTable = defaultSettings["_" .. comingHour]
 	
 	handleLightColor()
 	handleAmbientColor()
@@ -46,6 +46,7 @@ function updateTime()
 	handleRain()
 	handleWindVelocity()
 	handleSunPosition()
+	handleTemperature()
 	handleDayTime()
 	syncToClients()
 end
@@ -198,8 +199,21 @@ function handleSunPosition()
 	weatherTable.sunPos = {currentX, currentY, currentZ}
 end
 
+function handleTemperature()
+	local firstTemperatur = currentWeatherTable.temperature
+	local secondTemperatur = nextWeatherTable.temperature
+	local multiplier = (1/60)*(minute + 1)
+	local varTemperatur = math.abs(firstTemperatur - secondTemperatur) * multiplier
+	
+	local currentTemperatur
+	
+	if (firstTemperatur <= secondTemperatur) then currentTemperatur = firstTemperatur + varTemperatur else currentTemperatur = firstTemperatur - varTemperatur end
+	
+	weatherTable.temperature = currentTemperatur
+end
+
 function handleDynamicWeather()
-	local weatherVar = math.random(1, 4)
+	local weatherVar = math.random(1, 5)
 	setWeather(weatherStates[weatherVar])
 	local nextCheck = math.random(300000, 900000)
 	setTimer(handleDynamicWeather, nextCheck, 1)
@@ -255,4 +269,4 @@ function debugWeather()
 		outputChatBox("Daytime: " .. getDayTime() .. ", Weather: " .. getWeather(), root)
 	end
 end
-setTimer(debugWeather, 1000, 0)
+setTimer(debugWeather, 15000, 0)

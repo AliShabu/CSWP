@@ -28,7 +28,8 @@ local showGrassShaderClient = "false"
 -- // binds // --
 local shaderKey = "F3" -- all shader enable/disable shortkey
 
--- // global shader variables // --
+-- //shader variables // --
+local temperature = 12
 
 -- SkyBox
 local hour, minute, last_minute, second, getLastTick = 0, 0, 0, 0, 0
@@ -105,6 +106,10 @@ function weatherManager(serverTable)
 		if (serverTable.sunPos) then
 			setSunPosition(serverTable.sunPos)
 		end
+		
+		if (serverTable.temperature) then
+			setTemperature(serverTable.temperature)
+		end
 	end
 end
 addEvent("onWeatherSync", true )
@@ -161,6 +166,7 @@ end
 addEvent("getServerSettings", true)
 addEventHandler("getServerSettings", root, receiveResourceSettings)
 
+-- // SETTINGS // --
 
 -- shader mode
 function setShowShadersServer(bool)
@@ -359,7 +365,6 @@ function getShowGrassShaderClient()
 	return showGrassShaderClient
 end
 
-
 bindKey(shaderKey, "down",
 function()
     if (getShowShadersClient() == "false") then
@@ -370,3 +375,15 @@ function()
 		guiCheckBoxSetSelected(checkBoxShowShaders, false)
     end
 end)
+
+-- // Shaders // --
+
+function setTemperature(temp)
+	if (temp) then
+		temperature = bool
+	end
+end
+
+function getTemperature()
+	return temperature
+end

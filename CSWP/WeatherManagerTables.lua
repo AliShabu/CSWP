@@ -1,6 +1,11 @@
 -- // WEATHER-TABLES // --
+hotSettings = {}
+sunnySettings = {}
+cloudySettings = {}
+rainySettings = {}
+stormySettings = {}
 
-weatherSettings = {
+defaultSettings = {
 	 -- // 00:00 //
 	_0 = {
 		lightColor = {0.19, 0.20, 0.23, 1.0},
@@ -10,6 +15,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.5, 0.2, 0},
 		sunPos = {0, -10992, 0},
+		temperature = 15,
 	},
 	
 	-- // 01:00 //
@@ -21,6 +27,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.9, 0.5, 0},
 		sunPos = {0, -10076, 150},
+		temperature = 15,
 	},
 	
 	-- // 02:00 // rainy
@@ -32,6 +39,7 @@ weatherSettings = {
 		rainLevel = 0.5,
 		windVelocity = {1.8, 1.7, 0},
 		sunPos = {0, -9160, 300},
+		temperature = 15,
 	},
 	
 	-- // 03:00 // rainy
@@ -43,6 +51,7 @@ weatherSettings = {
 		rainLevel = 0.6,
 		windVelocity = {1.8, 1.8, 0},
 		sunPos = {0, -8244, 450},
+		temperature = 16,
 	},
 	
 	-- // 04:00 //
@@ -54,6 +63,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.3, 0.2, 0},
 		sunPos = {0, -7328, 600},
+		temperature = 16,
 	},
 	
 	-- // 05:00 // light rain
@@ -65,6 +75,7 @@ weatherSettings = {
 		rainLevel = 0.2,
 		windVelocity = {1.5, 1.4, 0},
 		sunPos = {0, -6412, 750},
+		temperature = 16,
 	},
 	
 	-- // 06:00 //
@@ -76,6 +87,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.2, 0.1, 0},
 		sunPos = {0, -5496, 1000},
+		temperature = 17,
 	},
 	
 	-- // 07:00 // rainy
@@ -87,6 +99,7 @@ weatherSettings = {
 		rainLevel = 0.8,
 		windVelocity = {1.9, 1.3, 0},
 		sunPos = {0, -4580, 1250},
+		temperature = 17,
 	},
 	
 	-- // 08:00 //
@@ -98,6 +111,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.6, 0.2, 0},
 		sunPos = {0, -3664, 1500},
+		temperature = 18,
 	},
 
 	-- // 09:00 //
@@ -109,6 +123,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.4, 0.4, 0},
 		sunPos = {0, -2748, 1750},
+		temperature = 19,
 	},
 	
 	-- // 10:00 // cloudy
@@ -120,6 +135,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.6, 1.4, 0},
 		sunPos = {0, -1832, 2000},
+		temperature = 22,
 	},
 	
 	-- // 11:00 //
@@ -131,6 +147,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.4, 0.2, 0},
 		sunPos = {0, -916, 2500},
+		temperature = 27,
 	},
 
 	-- // 12:00 //
@@ -142,6 +159,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.3, 0, 0},
 		sunPos = {0, 0, 3000},
+		temperature = 33,
 	},
 	
 	-- // 13:00 // cloudy
@@ -153,6 +171,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.8, 1.2, 0},
 		sunPos = {0, 916, 2500},
+		temperature = 35,
 	},
 	
 	-- // 14:00 //
@@ -164,6 +183,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.2, 0, 0},
 		sunPos = {0, 1832, 2000},
+		temperature = 33,
 	},
 	
 	-- // 15:00 // light rainy
@@ -175,6 +195,7 @@ weatherSettings = {
 		rainLevel = 0.3,
 		windVelocity = {0.7, 1.1, 0},
 		sunPos = {0, 2748, 1750},
+		temperature = 30,
 	},
 
 	-- // 16:00 // rainy
@@ -186,6 +207,7 @@ weatherSettings = {
 		rainLevel = 1.0,
 		windVelocity = {1.9, 1.9, 0},
 		sunPos = {0, 3664, 1500},
+		temperature = 27,
 	},
 	
 	-- // 17:00 // cloudy
@@ -197,6 +219,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.3, 1.7, 0},
 		sunPos = {0, 4580, 1250},
+		temperature = 25,
 	},
 	
 	-- // 18:00 // cloudy
@@ -208,6 +231,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {1.4, 0.3, 0},
 		sunPos = {0, 5496, 1000},
+		temperature = 24,
 	},
 	
 	-- // 19:00 // light rainy
@@ -219,6 +243,7 @@ weatherSettings = {
 		rainLevel = 0.3,
 		windVelocity = {2, 0.2, 0},
 		sunPos = {0, 6412, 750},
+		temperature = 24,
 	},
 
 	-- // 20:00 // cloudy
@@ -230,6 +255,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {1.2, 1.1, 0},
 		sunPos = {0, 7328, 600},
+		temperature = 23,
 	},
 	
 	-- // 21:00 // light cloudy
@@ -241,6 +267,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {1.2, 0, 0},
 		sunPos = {0, 8244, 450},
+		temperature = 21,
 	},
 	
 	-- // 22:00 //
@@ -252,6 +279,7 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.1, 0, 0},
 		sunPos = {0, 9160, 300},
+		temperature = 19,
 	},
 	
 	-- // 23:00 //
@@ -263,5 +291,6 @@ weatherSettings = {
 		rainLevel = 0,
 		windVelocity = {0.1, 0.2, 0},
 		sunPos = {0, 10076, 150},
+		temperature = 17,
 	},
 }
