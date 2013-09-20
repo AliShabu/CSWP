@@ -31,6 +31,9 @@ Finished Features:
 - material wetness according rain strength
 - dynamic weather
 - glass reflections based on current skybox
+- record demos (key "I")
+- recording demo camera flight (fly around with free cam and store waypoints by key "O"
+- play recorded demos (key "U")
 
 
 Working on:
@@ -39,6 +42,7 @@ Working on:
 - shadows (difficult task)
 - restructuring code base
 - weather improvements
+- benchmark
 
 
 Planned features:
