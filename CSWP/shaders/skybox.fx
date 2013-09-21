@@ -4,6 +4,7 @@ texture skyBoxTexture1;
 texture skyBoxTexture2;
 texture sunTexture;
 float4 sunColor = float4(1, 1, 1, 1);
+float sunSize = 1;
 float3 camPos = float3(1, 1, 1);
 float3 sunPos = float3(0, 0, 0);
 float3 skyRotate = float3(0, 0, 0);
@@ -29,12 +30,14 @@ samplerCUBE SkyCubeSampler2 = sampler_state
     AddressV = Clamp;
 };
 
-samplerCUBE SunSampler = sampler_state
+sampler SunSampler = sampler_state
 {
     Texture = <sunTexture>;
 	MinFilter = Linear;
     MagFilter = Linear;
     MipFilter = Linear;
+	AddressU = Clamp;
+    AddressV = Clamp;
 };
 
 float3x3 eulRotate(float3 Rotate)
@@ -63,13 +66,17 @@ return rot;
 struct VertexShaderInput
 {
     float3 Position : POSITION0;
+	float2 SunTexCoords: TEXCOORD0;
 	float4 Diffuse : COLOR0;
 };
  
 struct VertexShaderOutput
 {
     float4 Position : POSITION0;
-    float3 skyTextureCoordinate : TEXCOORD0;
+	float2 SunTexCoords: TEXCOORD0;
+    float3 SkyTextureCoords : TEXCOORD1;
+	float3 NormalPosition : TEXCOORD2;
+	float3 LightDirection : TEXCOORD3;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
@@ -77,38 +84,52 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     VertexShaderOutput output;
 
 	output.Position = MTACalcScreenPosition(input.Position);
+	output.SunTexCoords = input.SunTexCoords;
 	float4 vertexPosition = mul(float4(input.Position, 1), gWorld);
 	
-	// compute the eye vector 
-    float4 eyeVector = normalize(vertexPosition - gViewInverse[3]); 			
-    output.skyTextureCoordinate = normalize(mul(eulRotate(skyRotate), eyeVector.xyz));
+	// compute eye vector 	
+	float4 eyeVector = normalize(vertexPosition - gViewInverse[3]);		
+    output.SkyTextureCoords = normalize(mul(eulRotate(skyRotate), eyeVector.xyz));
+	
+	// compute sun vector 
+	output.NormalPosition = normalize(mul(eulRotate(skyRotate), eyeVector.xyz));
+	float3 lightPos = normalize(sunPos - input.Position);
+	output.LightDirection = normalize(mul(eulRotate(skyRotate), lightPos));
 	
     return output;
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-	input.skyTextureCoordinate.z *= 1.5;
-	float4 skyColor1 = texCUBE(SkyCubeSampler1, input.skyTextureCoordinate.yzx);
-	float4 skyColor2 = texCUBE(SkyCubeSampler2, input.skyTextureCoordinate.yzx);
-	//if (skyColor.b > skyColor.r && skyColor.b > skyColor.g) {skyColor.b = 1;}
+	input.SkyTextureCoords.z *= 1.5;
+	float4 skyColor1 = texCUBE(SkyCubeSampler1, input.SkyTextureCoords.yzx);
+	float4 skyColor2 = texCUBE(SkyCubeSampler2, input.SkyTextureCoords.yzx);
+	float4 skyColor = (skyColor2 * fadeValue) + (skyColor1 * (1 - fadeValue));
+	skyColor /= 1.2;
 	
-	float4 finalColor = (skyColor2 * fadeValue) + (skyColor1 * (1 - fadeValue));
-	finalColor.rgb /= 1.5;
+	// sun 
+	float3 NormalPosition = normalize(input.NormalPosition);
+	float4 sunTexture = tex2D(SunSampler, input.SunTexCoords);
+
+    float sunDot = dot(input.LightDirection, NormalPosition) * sunSize;	
+	vector rays = 0.6 * pow(max(0.0, sunDot), 360);
+    rays.rgb *= sunTexture;
+    vector light = 0.7 * pow(max(0.0001, sunDot), 360);
+	light.rgb *= sunTexture;
 	
-	if (finalColor.r > 0.5) {finalColor.r + 0.25f;} else {finalColor.r - 0.25f;}
-	if (finalColor.g > 0.5) {finalColor.g + 0.25f;} else {finalColor.g - 0.25f;}
-	if (finalColor.b > 0.5) {finalColor.b + 0.25f;} else {finalColor.b - 0.25f;}
+	float sunObject = (light + rays) * sunColor;
+	float4 finalColor = skyColor + sunObject;
+	finalColor.a = 1;
 	
-    return saturate(finalColor);
+	return finalColor;
 }
 
 technique SkyBox
 {
     pass Pass0
     {
-        VertexShader = compile vs_2_0 VertexShaderFunction();
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        VertexShader = compile vs_3_0 VertexShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
     }
 }
 

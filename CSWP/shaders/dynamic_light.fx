@@ -12,8 +12,8 @@ float ambientIntensity = 1.0;
 float specularSize = 4;
 float lightShiningPower = 1;
 float bumpMapFactor = 1;
-float specularFadeStart = 5;
-float specularFadeEnd = 70; 
+float specularFadeStart = 15;
+float specularFadeEnd = 105; 
 float textureSize = 512.0;
 float rainLevel = 0;
 

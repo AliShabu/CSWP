@@ -598,9 +598,7 @@ function render()
 			local sx, sy, sz = unpack(getSunPosition())
 			local sunScreenX, sunScreenY = getScreenFromWorldPosition(sx, sy, sz, 0.5, true)
 			
-			if (sunScreenX) and (sunScreenY) and (isLineOfSightClear(camX, camY, camZ, sx, sy, sz, true, true, true, true, false, false, false, nil)) then
-				-- temporarely until sun shader is finished
-				dxDrawImage(sunScreenX - 64, sunScreenY - 64, 128, 128, sunTex, 0, 0, 0, tocolor(255, 255, 255, 255), false)
+			if (isLineOfSightClear(camX, camY, camZ, sx, sy, sz, true, true, true, true, false, false, false, nil)) then
 				sightClearToSun = "true"
 			else
 				sightClearToSun = "false"
