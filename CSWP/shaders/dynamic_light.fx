@@ -12,8 +12,8 @@ float ambientIntensity = 1.0;
 float specularSize = 4;
 float lightShiningPower = 1;
 float bumpMapFactor = 1;
-float specularFadeStart = 15;
-float specularFadeEnd = 350; 
+float specularFadeStart = 5;
+float specularFadeEnd = 70; 
 float textureSize = 512.0;
 float rainLevel = 0;
 
@@ -54,7 +54,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     output.Position = MTACalcScreenPosition(input.Position);
 	output.worldNormal = MTACalcWorldNormal(input.Normal);
 	output.worldPosition = MTACalcWorldPosition(input.Position);
-	output.lightDirection = normalize(input.Position - sunPos);
+	output.lightDirection = normalize(output.Position - sunPos);
 	
 	// Fake tangent and binormal
     float3 Tangent = input.Normal.yxz;
@@ -71,8 +71,8 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     output.Color = saturate(ambientColor * lightIntensity);
 	
 	// Distance fade calculation
-    float DistanceFromCamera = MTACalcCameraDistance(gCameraPosition, output.worldPosition);
-    output.DistFade = lerp(specularFadeEnd, specularFadeStart, 1.0f);
+    float DistanceFromCamera = MTACalcCameraDistance(gCameraPosition, MTACalcWorldPosition(input.Position));
+    output.DistFade = MTAUnlerp (specularFadeEnd, specularFadeStart, DistanceFromCamera );
 
     return output;
 }
@@ -92,19 +92,22 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     float specularLight = pow(saturate(dot(lightRange, normalMap)), specularSize * 2);
 	float4 specularColor = float4(lightColor.rgb * specularLight, 1);
 	specularColor += pow(saturate(dot(lightRange, input.worldNormal)), specularSize / 2) / 2;
-	specularColor /= 1.5;
-	specularColor *= mainColor.g * mainColor.g;
+	specularColor /= 2;
+	
+	float lightAwayDot = -dot(input.lightDirection, input.worldNormal);
+	
+    if (lightAwayDot < 0) specularColor = 0;
+	
+	specularColor *= mainColor.g;
 	
 	float4 shadowBrightness = saturate(input.Color + shadowColor);
 	float4 finalColor = mainColor * shadowBrightness;
-	finalColor.rgb += specularColor.rgb * lightShiningPower;
 	finalColor.rgb *= ambientColor.rgb * ambientIntensity;
 	
-	if (finalColor.r > 0.9) {finalColor.r = 0.9;}
-	if (finalColor.g > 0.9) {finalColor.g = 0.9;}
-	if (finalColor.b > 0.9) {finalColor.b = 0.9;}
+	float greyNess = MTAGetPixelGreyness(mainColor);
+	finalColor.rgb += specularColor * greyNess * lightShiningPower * saturate(input.DistFade);
 	
-    return saturate(finalColor);
+    return finalColor;
 }
 
 technique DynamicLight

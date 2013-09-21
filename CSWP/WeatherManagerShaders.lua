@@ -124,7 +124,7 @@ local grassTextures = {"txgrass1_1", "txgrass0_1", "txgrass1_0"}
 local excludingTextures = {	"cloudmasked", "skybox", "collisionsmoke", "particleskid", "shad_exp", "coronastar", "sfnitewindow_alfa", "sfnitewindows", "monlith_win_tex",
 							"sfxref_lite2c", "dt_scyscrap_door2", "white", "casinolights6lit3_256", "cj_frame_glass", "casinolights1b_128n", "casinolights4_128",
 							"casinolights7_256", "custom_roadsign_text", "bullethitsmoke", "dt_twinklylites", "vgsn_nl_strip", "unnamed", "splash_up1", "splash_up2",
-							"coronaringa", "gensplash", "boatwake1", "boatwake2", "white64", "lasjmslumwin1", "pierwin05_law", "nitwin01_la", "sl_dtwinlights1"}
+							"coronaringa", "gensplash", "boatwake1", "boatwake2", "white64", "lasjmslumwin1", "pierwin05_law", "nitwin01_la", "sl_dtwinlights1", "smoke"}
 
 -- textures which shouldnt be rendered						
 local deletingTextures = {"lamp_shad_64", "shad_ped", "shad_bike", "shad_car", "shad_heli", "shad_rcbaron"}		
