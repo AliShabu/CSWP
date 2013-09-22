@@ -9,13 +9,14 @@ float4 shadowColor = float4(0, 0, 0, 1);
 float4 lightColor = float4(1, 1, 1, 1);
 float4 ambientColor = float4(1, 1, 1, 1);
 float ambientIntensity = 1.0;
-float specularSize = 4;
+float specularSize = 2;
 float lightShiningPower = 1;
 float bumpMapFactor = 1;
 float specularFadeStart = 15;
 float specularFadeEnd = 105; 
 float textureSize = 512.0;
 float rainLevel = 0;
+float bias = 0.003;
 
 //---------------------------------------------------------------------
 // Sampler for the main texture
@@ -96,7 +97,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	
 	float lightAwayDot = -dot(input.lightDirection, input.worldNormal);
 	
-    if (lightAwayDot < 0) specularColor = 0;
+    if (lightAwayDot < bias) specularColor = 0;
 	
 	specularColor *= mainColor.g;
 	
