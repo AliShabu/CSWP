@@ -1,7 +1,9 @@
 local screenWidth, screenHeight = guiGetScreenSize()
 local shaderGUIKey = "F2"
-local guiBarText = "CSWP Panel by Ren_172 & Sam@ke"
+local guiBarText = "CSWP - Shader Panel"
 local sizeX, sizeY = 500, 200
+local hour, minute, dayTime, weather = 0, 0, "", ""
+
 
 function initializeGUI()
 	mainWindow = guiCreateWindow (screenWidth/2 - sizeX/2, screenHeight/2 - sizeY/2, sizeX, sizeY, guiBarText, false)
@@ -14,12 +16,22 @@ function initializeGUI()
 	checkBoxShowCar = guiCreateCheckBox(0.5, 0.5, 0.4, 0.1, "Enable/Disable car shader", true, true, mainWindow)
 	checkBoxShowGlass = guiCreateCheckBox(0.1, 0.6, 0.4, 0.1, "Enable/Disable glass shader", true, true, mainWindow)
 	checkBoxShowGrass = guiCreateCheckBox(0.5, 0.6, 0.4, 0.1, "Enable/Disable grass shader", false, true, mainWindow)
+	timeLabel = guiCreateLabel(0.1, 0.75, 0.3, 0.1, "Time:", true, mainWindow)
+	dayTimeLabel = guiCreateLabel(0.5, 0.75, 0.3, 0.1, "Daytime:", true, mainWindow)
+	weatherLabel = guiCreateLabel(0.1, 0.85, 0.3, 0.1, "Weather:", true, mainWindow)
+	temperatureLabel = guiCreateLabel(0.5, 0.85, 0.3, 0.1, "Temperature:", true, mainWindow)
 	guiSetVisible(mainWindow, false)
 end
 addEventHandler("onClientResourceStart", root, initializeGUI)
 
 
-function getCheckBoxValues()
+function updateGUIValues()
+	hour, minute = getTime()
+	guiSetText(timeLabel, "Time: " .. string.format("%02d", hour) .. ":" .. string.format("%02d", minute))
+	guiSetText(dayTimeLabel, "Daytime: " .. getDayTime())
+	guiSetText(weatherLabel, "Weather: " .. getCSWPWeather())
+	guiSetText(temperatureLabel, "Temperature: " .. string.format("%.1f", getTemperature()) .. "°C")
+
 	if (guiCheckBoxGetSelected(checkBoxShowShaders)) then
 		setShowShadersClient("true")
 	else
@@ -74,7 +86,7 @@ function getCheckBoxValues()
 		setShowGrassShaderClient("false")
 	end
 end
-addEventHandler("onClientRender", root, getCheckBoxValues)
+addEventHandler("onClientRender", root, updateGUIValues)
 
 
 bindKey(shaderGUIKey, "down",

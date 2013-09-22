@@ -34,8 +34,8 @@ function updateTime()
 	local currentMinuteSpeed = 1000/gameSpeed
 	setMinuteDuration(currentMinuteSpeed)
 	
-	currentWeatherTable = defaultSettings["_" .. hour]
-	nextWeatherTable = defaultSettings["_" .. comingHour]
+	currentWeatherTable = weatherSettings["_" .. getWeather()]["_" .. hour]
+	nextWeatherTable = weatherSettings["_" .. getWeather()]["_" .. comingHour]
 	
 	handleLightColor()
 	handleAmbientColor()
@@ -46,6 +46,7 @@ function updateTime()
 	handleSunPosition()
 	handleTemperature()
 	handleDayTime()
+	handleStats()
 	syncToClients()
 end
 setTimer(updateTime, refreshTime, 0)
@@ -88,8 +89,6 @@ function refreshResourceSettings()
 	if get("showgrassshader") then
 		settingsTable.showGrassShaderServer = get("showgrassshader") or "true"
 	end
-	
-	settingsTable.serverTime = {hour, minute}
 	
 	triggerClientEvent("getServerSettings", root, settingsTable)
 end
@@ -208,6 +207,10 @@ function handleTemperature()
 	if (firstTemperatur <= secondTemperatur) then currentTemperatur = firstTemperatur + varTemperatur else currentTemperatur = firstTemperatur - varTemperatur end
 	
 	weatherTable.temperature = currentTemperatur
+end
+
+function handleStats()
+	weatherTable.serverWeatherStats = {getDayTime(), getWeather()}
 end
 
 function handleDynamicWeather()

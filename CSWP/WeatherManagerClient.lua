@@ -26,10 +26,12 @@ local showGrassShaderClient = "false"
 local shaderKey = "F3" -- all shader enable/disable shortkey
 
 -- //shader variables // --
+local dayTime = ""
+local weather = ""
 local temperature = 12
 
 -- SkyBox
-local hour, minute, last_minute, second, getLastTick = 0, 0, 0, 0, 0
+local hour, minute, lastMinute, second, getLastTick = 0, 0, 0, 0, 0
 local skyTextures = {}
 
 for i = 0, 23, 1 do
@@ -43,7 +45,7 @@ function liveUpdate()
 		return 
 	end
 	
-	if (last_minute == minute)  then 
+	if (lastMinute == minute)  then 
 		second = second + (((getTickCount() - getLastTick)) * getGameSpeed())
 	else  
 		second = 0  
@@ -57,7 +59,7 @@ function liveUpdate()
 	
 	skyRotZ = math.rad((timeAspect) * 360)
 	getLastTick = getTickCount()
-	last_minute = minute
+	lastMinute = minute
 	
 	if (hour and minute) then
 		local comingHour = hour + 1
@@ -106,6 +108,10 @@ function weatherManager(serverTable)
 		
 		if (serverTable.temperature) then
 			setTemperature(serverTable.temperature)
+		end
+		
+		if (serverTable.serverWeatherStats) then
+			setWeatherStats(serverTable.serverWeatherStats)
 		end
 	end
 end
@@ -373,11 +379,42 @@ function()
     end
 end)
 
--- // Shaders // --
+-- // Shaders Settings// --
 
+function setWeatherStats(serverWeatherStats)
+	if (serverWeatherStats) then
+		local serverDayTime, serverWeather = unpack(serverWeatherStats)
+		setDayTime(serverDayTime)
+		setCSWPWeather(serverWeather)
+	end
+end
+
+-- // Daytime // --
+function setDayTime(serverDayTime)
+	if (serverDayTime) then
+		dayTime = serverDayTime
+	end
+end
+
+function getDayTime()
+	return dayTime
+end
+
+-- // Weather // --
+function setCSWPWeather(weatherVar)
+	if (weatherVar) then
+		weather = weatherVar
+	end
+end
+
+function getCSWPWeather()
+	return weather
+end
+
+-- // Temperature // --
 function setTemperature(temp)
 	if (temp) then
-		temperature = bool
+		temperature = temp
 	end
 end
 
