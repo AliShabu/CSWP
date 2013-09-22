@@ -10,7 +10,8 @@ local camX, camY, camZ, camRotX, camRotY, camRotZ -- camera coords
 -- SUN
 local sunTex = dxCreateTexture("textures/env/sun.png")
 local fakeSun = nil
-local sunX, sunY, sunZ = 0, 0, 0
+local sunX, sunY, sunZ = 0, 0, 0 -- sun position by server
+local sx, sy, sz = 0, 0, 0 -- real sun position in relation to player
 
 -- SKYBOX
 local skyBoxShader, skyBoxTec = nil, nil
@@ -29,15 +30,13 @@ local shadowColor = {0.1, 0.1, 0.1, 1.0}
 lightColor = {0.85, 0.82, 0.8, 1.0}
 ambientColor = {0.82, 0.79, 0.77, 1.0}
 local ambientIntensity = 1.0
-local lightShiningPower = 1
-local lightBumpMapFactor = 0.7
+local lightShiningPower = 0.8
+local lightBumpMapFactor = 0.6
 fogStart = 800
 local fogEnd = 3500
 
 -- SHADOWS
-local depthShader, depthTec = nil, nil
 local shadowShader, shadowTec = nil, nil
-local depthMapRenderTarget = nil
 
 -- GODRAYS
 local godrayShader, godrayTec = nil, nil
@@ -200,24 +199,14 @@ function setShaders()
 			end
 		end
 		
-		if(getShowShadowShaderServer() == "true") and (getShowShadowShaderClient() == "true") then
-			if (not depthShader) then
-				depthMapRenderTarget = dxCreateRenderTarget(screenWidth, screenHeight)
-				depthShader, depthTec = dxCreateShader("shaders/depthmap.fx", 0, 0, false, "all")
-					
-				if (depthShader) and (depthMapRenderTarget) then
-					engineApplyShaderToWorldTexture(depthShader, "*")
-				end
-			end
-		
+		if(getShowShadowShaderServer() == "true") and (getShowShadowShaderClient() == "true") then	
 			if (not shadowShader) then 
 				shadowShader, shadowTec = dxCreateShader("shaders/shadows.fx", 0, 1000, false, "all")
 					
 				if (shadowShader) and (depthShader) then
-					--engineApplyShaderToWorldTexture(shadowShader, "*")
+					engineApplyShaderToWorldTexture(shadowShader, "*")
 					for key, value in ipairs(excludingTextures) do
 						engineRemoveShaderFromWorldTexture(shadowShader, excludingTextures[key])
-						engineRemoveShaderFromWorldTexture(depthShader, excludingTextures[key])
 					end
 				else
 					outputChatBox("Could not create all shadow shaders. Please use debugscript 3")
@@ -230,7 +219,6 @@ function setShaders()
 			if (not fakeSun) then
 				fakeSun = createElement("fakesun")
 			else
-				local sx, sy, sz = unpack(getSunPosition())
 				setElementPosition(fakeSun, sx, sy, sz, true)
 			end
 				
@@ -397,12 +385,7 @@ function destroyShaders()
 			end
 		end
 		
-		if (getShowShadowShaderServer() == "false") or (getShowShadowShaderClient() == "false") then
-			if (depthShader) then
-				destroyElement(depthShader)
-				depthShader = nil
-			end
-			
+		if (getShowShadowShaderServer() == "false") or (getShowShadowShaderClient() == "false") then			
 			if (shadowShader) then
 				destroyElement(shadowShader)
 				shadowShader = nil
@@ -458,7 +441,6 @@ function updateShaders()
 	if (getShowShadersServer() == "true") and (getShowShadersClient() == "true") then
 
 		dxUpdateScreenSource(myScreenSource)
-		local sx, sy, sz = unpack(getSunPosition())
 		
 		if (skyBoxShader) then
 			dxSetShaderValue(skyBoxShader, "skyBoxTexture1", skyBoxTexture1)
@@ -467,7 +449,6 @@ function updateShaders()
 			dxSetShaderValue(skyBoxShader, "skyRotate", {skyRotX, skyRotY, skyRotZ})
 			dxSetShaderValue(skyBoxShader, "sunTexture", sunTex)
 			dxSetShaderValue(skyBoxShader, "sunColor", lightColor)
-			dxSetShaderValue(skyBoxShader, "camPos", {camX, camY, camZ})
 			dxSetShaderValue(skyBoxShader, "sunPos", {sx, sy, sz})
 			
 			if (skyBox) then
@@ -486,16 +467,13 @@ function updateShaders()
 			dxSetShaderValue(dynamicLightShader, "rainLevel", rainLevel)
 		end
 		
-		if (depthShader) and (shadowShader) then
+		if (shadowShader) then
 			dxSetShaderValue(shadowShader, "sunPos", {sx, sy, sz})
-			dxSetShaderValue(shadowShader, "camPos", {camX, camY, camZ})
 			dxSetShaderValue(shadowShader, "shadowColor", shadowColor)
 			dxSetShaderValue(shadowShader, "lightColor", lightColor)
 		end
 		
-		if (godrayShader) then
-			local ssx, ssy = getScreenFromWorldPosition(sx, sy, sz, 0.5, true)
-			
+		if (godrayShader) then		
 			if (ssx) and (ssy) then
 				dxSetShaderValue(godrayShader, "sunPos", {(1/screenWidth)*ssx, (1/screenHeight)*ssy})
 			end
@@ -526,7 +504,6 @@ function updateShaders()
 			dxSetShaderValue(waterShader, "sunColor", lightColor)
 			dxSetShaderValue(waterShader, "waterAlpha", waterAlpha)
 			dxSetShaderValue(waterShader, "waterBrightness", waterBrightness)
-			dxSetShaderValue(waterShader, "camPos", {camX, camY, camZ})
 			dxSetShaderValue(waterShader, "sunPos", {sx, sy, sz})
 			dxSetShaderValue(waterShader, "flowSpeed", flowSpeed)
 			dxSetShaderValue(waterShader, "reflectScale", reflectScale)
@@ -545,7 +522,6 @@ function updateShaders()
 			dxSetShaderValue(glassShader, "glassColor", glassColor)
 			dxSetShaderValue(glassShader, "ambientColor", ambientColor)
 			dxSetShaderValue(glassShader, "sunPos", {sx, sy, sz})
-			dxSetShaderValue(glassShader, "camPos", {camX, camY, camZ})
 			dxSetShaderValue(glassShader, "reflectionStrength", glassReflectionStrength)
 			dxSetShaderValue(glassShader, "glassShiningPower", glassShiningPower)
 
@@ -558,7 +534,6 @@ function updateShaders()
 			dxSetShaderValue(carShader, "fadeValue", fadeValue)
 			dxSetShaderValue(carShader, "mainReflectionTexture", myScreenSource);
 			dxSetShaderValue(carShader, "sunPos", {sx, sy, sz});
-			dxSetShaderValue(carShader, "camPos", {camX, camY, camZ});
 			dxSetShaderValue(carShader, "shadowColor", shadowColor);
 			dxSetShaderValue(carShader, "ambientColor", ambientColor);
 			dxSetShaderValue(carShader, "ambientIntensity", ambientIntensity)
@@ -578,6 +553,9 @@ addEventHandler("onClientPreRender", root, updateShaders)
 function render()
 	if (getShowShadersServer() == "true") and (getShowShadersClient() == "true") then
 		camX, camY, camZ, camRotX, camRotY, camRotZ = getCameraMatrix()
+		ssx, ssy = getScreenFromWorldPosition(sx, sy, sz, 0.5, true)
+		sx, sy, sz = unpack(getSunPosition())
+		px, py, pz = getElementPosition(getLocalPlayer())
 		
 		setFarClipDistance(fogEnd)
 		setFogDistance(fogStart)
@@ -594,21 +572,12 @@ function render()
 		local skyR, skyG, skyB, skyA = unpack(lightColor)
 		setSkyGradient(skyR * 128, skyG * 128, skyB * 128, skyR *255, skyG *255, skyB *255)
 		
-		if (godrayShader) and (fakeSun) then
-			local sx, sy, sz = unpack(getSunPosition())
-			local sunScreenX, sunScreenY = getScreenFromWorldPosition(sx, sy, sz, 0.5, true)
-			
-			if (isLineOfSightClear(camX, camY, camZ, sx, sy, sz, true, true, true, true, false, false, false, nil)) then
+		if (godrayShader) and (fakeSun) then			
+			if (isLineOfSightClear(px, py, pz, sx, sy, sz, true, true, true, true, false, false, false, nil)) then
 				sightClearToSun = "true"
 			else
 				sightClearToSun = "false"
 			end
-		end
-		
-		if (depthShader) and (depthMapRenderTarget) then
-			dxSetRenderTarget(depthMapRenderTarget)
-			dxDrawImage(0, 0, screenWidth, screenHeight, depthMapRenderTarget)
-			dxSetRenderTarget()
 		end
 	end
 	

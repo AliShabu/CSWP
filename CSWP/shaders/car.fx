@@ -8,7 +8,6 @@ texture skyBoxTexture2;
 float3 skyRotate = float3(0, 0, 0);
 float fadeValue = 0;
 float3 sunPos = float3(0, 0, 0);
-float3 camPos = float3(0, 0, 0);
 float4 ambientColor = float4(1, 1, 1, 1);
 float ambientIntensity = 1.0;
 float4 shadowColor = float4(0, 0, 0, 1);

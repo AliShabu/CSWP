@@ -20,7 +20,6 @@ float causticStrength = 0.0;
 float4 waterColor = float4(0.0, 0.0, 0.0, 0.0);
 float waterAlpha = 0.0;
 float waterBrightness = 1.0;
-float3 camPos = float3(0, 0, 0);
 float3 sunPos = float3(0, 0, 0);
 float4 sunColor = float4(0.0, 0.0, 0.0, 0.0);
 float specularSize = 4;
@@ -148,7 +147,7 @@ PixelInputType WaterVertexShader(VertexInputType input)
     // Calculate the position of the vertex against the world, view, and projection matrices.
     output.position = MTACalcScreenPosition(input.position);
 	output.worldPosition = MTACalcWorldPosition(input.position);
-	output.lightDirection = normalize(camPos - sunPos);
+	output.lightDirection = normalize(gCameraPosition - sunPos);
 	output.worldNormal = MTACalcWorldNormal(input.normal);
     
     // Store the texture coordinates for the pixel shader.
@@ -235,7 +234,7 @@ float4 WaterPixelShader(PixelInputType input) : COLOR0
 	refractionColor = tex2D(RefractionSampler, refractTexCoord) * refractionStrength;
 
 	// Using Blinn half angle modification for performance over correctness
-    float3 lightRange = normalize(normalize(camPos - input.worldPosition) - input.lightDirection);
+    float3 lightRange = normalize(normalize(gCameraPosition - input.worldPosition) - input.lightDirection);
     float specularLight = pow(saturate(dot(lightRange, normal)), specularSize * 2);
 	float4 specularColor = float4(sunColor.rgb * specularLight, 1);
 	specularColor += pow(saturate(dot(lightRange, input.worldNormal)), specularSize / 2) / 2;

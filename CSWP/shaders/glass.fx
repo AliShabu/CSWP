@@ -11,7 +11,6 @@ float fadeValue = 0;
 float3 sunPos = float3(0, 0, 0);
 float4 glassColor = float4(1.0, 1.0, 1.0, 1.0);
 float4 ambientColor = float4(1.0, 1.0, 1.0, 1.0);
-float3 camPos = float3(1.0, 1.0, 1.0);
 float reflectionStrength = 1.0;
 float glassShiningPower = 16;
 
@@ -113,7 +112,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 finalSkyColor = (skyColor2 * fadeValue) + (skyColor1 * (1 - fadeValue));
 	
 	// Using Blinn half angle modification for performance over correctness
-    float3 lightRange = normalize(normalize(camPos - input.worldPosition) - input.lightDirection);
+    float3 lightRange = normalize(normalize(gCameraPosition - input.worldPosition) - input.lightDirection);
     float specularLight = pow(saturate(dot(lightRange, input.worldNormal)), glassShiningPower);
 	float4 specularColor = float4(specularLight, specularLight, specularLight, 1);
 	specularColor *= mainColor.g * mainColor.g;

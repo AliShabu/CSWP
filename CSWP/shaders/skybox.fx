@@ -93,8 +93,8 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	
 	// compute sun vector 
 	output.NormalPosition = normalize(mul(eulRotate(skyRotate), eyeVector.xyz));
-	float3 lightPos = normalize(sunPos - input.Position);
-	output.LightDirection = normalize(mul(eulRotate(skyRotate), lightPos));
+	float3 lightPos = normalize(gCameraPosition - sunPos);
+	output.LightDirection = normalize(mul(eulRotate(skyRotate), -lightPos));
 	
     return output;
 }
@@ -108,18 +108,18 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	skyColor /= 1.2;
 	
 	// sun 
+	input.NormalPosition.z *= 1.5;
 	float3 NormalPosition = normalize(input.NormalPosition);
 	float4 sunTexture = tex2D(SunSampler, input.SunTexCoords);
 
-    float sunDot = dot(input.LightDirection, NormalPosition) * sunSize;	
-	vector rays = 0.6 * pow(max(0.0, sunDot), 360);
-    rays.rgb *= sunTexture;
-    vector light = 0.7 * pow(max(0.0001, sunDot), 360);
-	light.rgb *= sunTexture;
+    float sunDot = dot(input.LightDirection, NormalPosition);	
+	vector rays = (0.3 * sunSize) * pow(max(0.0, sunDot), 60);
+	rays *= sunTexture;
+    vector light = (0.1 * sunSize) * pow(max(0.0001, sunDot), 360);
+	light *= sunTexture;
 	
-	float sunObject = (light + rays) * sunColor;
-	float4 finalColor = skyColor + sunObject;
-	finalColor.a = 1;
+	float4 sunObject = sunColor * (light + rays);
+	float4 finalColor = float4(skyColor.rgb + sunObject.rgb, 1);
 	
 	return finalColor;
 }

@@ -83,8 +83,6 @@
 	<file src="shaders/dynamic_light.fx" type="client"/>
 	<file src="shaders/grass.fx" type="client"/>
 	<file src="shaders/skybox.fx" type="client"/>
-	<file src="shaders/sun_moon.fx" type="client"/>
-	<file src="shaders/depthmap.fx" type="client"/>
 	<file src="shaders/shadows.fx" type="client"/>
 	<file src="shaders/clear.fx" type="client"/>
 	<file src="shaders/mta-helper.fx" type="client"/>

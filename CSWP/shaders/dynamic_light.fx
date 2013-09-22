@@ -54,7 +54,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     output.Position = MTACalcScreenPosition(input.Position);
 	output.worldNormal = MTACalcWorldNormal(input.Normal);
 	output.worldPosition = MTACalcWorldPosition(input.Position);
-	output.lightDirection = normalize(output.Position - sunPos);
+	output.lightDirection = normalize(gCameraPosition - sunPos);
 	
 	// Fake tangent and binormal
     float3 Tangent = input.Normal.yxz;

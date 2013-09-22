@@ -8,7 +8,7 @@ stormySettings = {}
 defaultSettings = {
 	 -- // 00:00 //
 	_0 = {
-		lightColor = {0.19, 0.20, 0.23, 1.0},
+		lightColor = {1, 0.95, 0.9, 1.0},
 		lightAmbient = {0.18, 0.19, 0.21, 1.0},
 		texture = "textures/sky/sky0.dds",
 		fogStart = 140,
@@ -20,7 +20,7 @@ defaultSettings = {
 	
 	-- // 01:00 //
 	_1 = {
-		lightColor = {0.20, 0.21, 0.24, 1.0},
+		lightColor = {1, 0.95, 0.8, 1.0},
 		lightAmbient = {0.19, 0.20, 0.23, 1.0},
 		texture = "textures/sky/sky1.dds",
 		fogStart = 170,
@@ -32,7 +32,7 @@ defaultSettings = {
 	
 	-- // 02:00 // rainy
 	_2 = {
-		lightColor = {0.22, 0.23, 0.27, 1.0},
+		lightColor = {1, 0.95, 0.7, 1.0},
 		lightAmbient = {0.21, 0.22, 0.26, 1.0},
 		texture = "textures/sky/sky2.dds",
 		fogStart = 200,
@@ -44,7 +44,7 @@ defaultSettings = {
 	
 	-- // 03:00 // rainy
 	_3 = {
-		lightColor = {0.25, 0.27, 0.3, 1.0},
+		lightColor = {1, 0.9, 0.6, 1.0},
 		lightAmbient = {0.24, 0.26, 0.29, 1.0},
 		texture = "textures/sky/sky3.dds",
 		fogStart = 230,
@@ -56,7 +56,7 @@ defaultSettings = {
 	
 	-- // 04:00 //
 	_4 = {
-		lightColor = {0.27, 0.29, 0.33, 1.0},
+		lightColor = {1, 0.85, 0.5, 1.0},
 		lightAmbient = {0.26, 0.28, 0.32, 1.0},
 		texture = "textures/sky/sky4.dds",
 		fogStart = 260,
@@ -68,7 +68,7 @@ defaultSettings = {
 	
 	-- // 05:00 // light rain
 	_5 = {
-		lightColor = {0.35, 0.35, 0.35, 1.0},
+		lightColor = {1, 0.8, 0.4, 1.0},
 		lightAmbient = {0.34, 0.34, 0.34, 1.0},
 		texture = "textures/sky/sky5.dds",
 		fogStart = 290,
@@ -80,7 +80,7 @@ defaultSettings = {
 	
 	-- // 06:00 //
 	_6 = {
-		lightColor = {0.45, 0.42, 0.38, 1.0},
+		lightColor = {1, 0.85, 0.4, 1.0},
 		lightAmbient = {0.44, 0.41, 0.37, 1.0},
 		texture = "textures/sky/sky6.dds",
 		fogStart = 320,
@@ -92,7 +92,7 @@ defaultSettings = {
 	
 	-- // 07:00 // rainy
 	_7 = {
-		lightColor = {0.55, 0.55, 0.55, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.54, 0.54, 0.54, 1.0},
 		texture = "textures/sky/sky7.dds",
 		fogStart = 350,
@@ -104,7 +104,7 @@ defaultSettings = {
 	
 	-- // 08:00 //
 	_8 = {
-		lightColor = {0.65, 0.63, 0.6, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.64, 0.62, 0.59, 1.0},
 		texture = "textures/sky/sky8.dds",
 		fogStart = 380,
@@ -116,7 +116,7 @@ defaultSettings = {
 
 	-- // 09:00 //
 	_9 = {
-		lightColor = {0.73, 0.71, 0.7, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.72, 0.70, 0.69, 1.0},
 		texture = "textures/sky/sky9.dds",
 		fogStart = 410,
@@ -128,7 +128,7 @@ defaultSettings = {
 	
 	-- // 10:00 // cloudy
 	_10 = {
-		lightColor = {0.7, 0.7, 0.7, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.69, 0.69, 0.69, 1.0},
 		texture = "textures/sky/sky10.dds",
 		fogStart = 440,
@@ -140,7 +140,7 @@ defaultSettings = {
 	
 	-- // 11:00 //
 	_11 = {
-		lightColor = {0.85, 0.81, 0.8, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.84, 0.8, 0.79, 1.0},
 		texture = "textures/sky/sky11.dds",
 		fogStart = 470,
@@ -152,7 +152,7 @@ defaultSettings = {
 
 	-- // 12:00 //
 	_12 = {
-		lightColor = {0.9, 0.88, 0.85, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.89, 0.87, 0.84, 1.0},
 		texture = "textures/sky/sky12.dds",
 		fogStart = 500,
@@ -164,7 +164,7 @@ defaultSettings = {
 	
 	-- // 13:00 // cloudy
 	_13 = {
-		lightColor = {0.75, 0.75, 0.75, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.74, 0.74, 0.74, 1.0},
 		texture = "textures/sky/sky13.dds",
 		fogStart = 470,
@@ -176,7 +176,7 @@ defaultSettings = {
 	
 	-- // 14:00 //
 	_14 = {
-		lightColor = {0.86, 0.84, 0.8, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.85, 0.83, 0.79, 1.0},
 		texture = "textures/sky/sky14.dds",
 		fogStart = 440,
@@ -188,7 +188,7 @@ defaultSettings = {
 	
 	-- // 15:00 // light rainy
 	_15 = {
-		lightColor = {0.72, 0.72, 0.72, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.71, 0.71, 0.71, 1.0},
 		texture = "textures/sky/sky15.dds",
 		fogStart = 410,
@@ -200,7 +200,7 @@ defaultSettings = {
 
 	-- // 16:00 // rainy
 	_16 = {
-		lightColor = {0.71, 0.69, 0.62, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.7, 0.68, 0.61, 1.0},
 		texture = "textures/sky/sky16.dds",
 		fogStart = 380,
@@ -212,7 +212,7 @@ defaultSettings = {
 	
 	-- // 17:00 // cloudy
 	_17 = {
-		lightColor = {0.7, 0.68, 0.62, 1.0},
+		lightColor = {1, 0.9, 0.4, 1.0},
 		lightAmbient = {0.69, 0.67, 0.61, 1.0},
 		texture = "textures/sky/sky17.dds",
 		fogStart = 350,
@@ -224,7 +224,7 @@ defaultSettings = {
 	
 	-- // 18:00 // cloudy
 	_18 = {
-		lightColor = {0.7, 0.65, 0.6, 1.0},
+		lightColor = {1, 0.85, 0.4, 1.0},
 		lightAmbient = {0.69, 0.64, 0.59, 1.0},
 		texture = "textures/sky/sky18.dds",
 		fogStart = 320,
@@ -236,7 +236,7 @@ defaultSettings = {
 	
 	-- // 19:00 // light rainy
 	_19 = {
-		lightColor = {0.62, 0.62, 0.62, 1.0},
+		lightColor = {1, 0.8, 0.4, 1.0},
 		lightAmbient = {0.61, 0.61, 0.61, 1.0},
 		texture = "textures/sky/sky19.dds",
 		fogStart = 290,
@@ -248,7 +248,7 @@ defaultSettings = {
 
 	-- // 20:00 // cloudy
 	_20 = {
-		lightColor = {0.6, 0.59, 0.5, 1.0},
+		lightColor = {1, 0.75, 0.5, 1.0},
 		lightAmbient = {0.59, 0.58, 0.49, 1.0},
 		texture = "textures/sky/sky20.dds",
 		fogStart = 260,
@@ -260,7 +260,7 @@ defaultSettings = {
 	
 	-- // 21:00 // light cloudy
 	_21 = {
-		lightColor = {0.55, 0.45, 0.45, 1.0},
+		lightColor = {1, 0.7, 0.6, 1.0},
 		lightAmbient = {0.54, 0.44, 0.44, 1.0},
 		texture = "textures/sky/sky21.dds",
 		fogStart = 230,
@@ -272,7 +272,7 @@ defaultSettings = {
 	
 	-- // 22:00 //
 	_22 = {
-		lightColor = {0.4, 0.36, 0.32, 1.0},
+		lightColor = {1, 0.8, 0.7, 1.0},
 		lightAmbient = {0.39, 0.35, 0.31, 1.0},
 		texture = "textures/sky/sky22.dds",
 		fogStart = 200,
@@ -284,7 +284,7 @@ defaultSettings = {
 	
 	-- // 23:00 //
 	_23 = {
-		lightColor = {0.29, 0.25, 0.25, 1.0},
+		lightColor = {1, 0.9, 0.8, 1.0},
 		lightAmbient = {0.28, 0.24, 0.24, 1.0},
 		texture = "textures/sky/sky23.dds",
 		fogStart = 170,
