@@ -14,6 +14,7 @@ local currentDayTime = "day"
 local currentWeather = "sunny"
 local weatherStates = {"hot", "sunny", "cloudy", "rainy", "stormy"}
 local hour, minute = 0, 0
+local currentHour = nil
 local gameSpeed = 1
 
 function initWeather()
@@ -45,6 +46,7 @@ function updateTime()
 	handleWindVelocity()
 	handleSunPosition()
 	handleTemperature()
+	handleDynamicWeather()
 	handleDayTime()
 	handleStats()
 	syncToClients()
@@ -133,7 +135,7 @@ function handleAmbientColor()
 end
 
 function handleSkyTexture()
-
+	weatherTable.skyTextures = {currentWeatherTable.skyTexture, nextWeatherTable.skyTexture}
 end
 
 function handleFog()
@@ -214,10 +216,11 @@ function handleStats()
 end
 
 function handleDynamicWeather()
-	local weatherVar = math.random(1, 5)
-	setWeather(weatherStates[weatherVar])
-	local nextCheck = math.random(300000, 900000)
-	setTimer(handleDynamicWeather, nextCheck, 1)
+	if (currentHour ~= hour) then
+		local weatherVar = math.random(1, 5)
+		setWeather(weatherStates[weatherVar])
+		currentHour = hour
+	end
 end
 
 function handleDayTime()

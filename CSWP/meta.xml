@@ -32,7 +32,6 @@
 	<file src="textures/grass/grass1.png" type="client"/>
 	<file src="textures/grass/grass2.png" type="client"/>
 	<file src="textures/env/sun.png" type="client" />
-	<file src="textures/sky/sky0.dds" type="client" />
 	<file src="textures/sky/sky1.dds" type="client" />
 	<file src="textures/sky/sky2.dds" type="client" />
 	<file src="textures/sky/sky3.dds" type="client" />
@@ -55,7 +54,6 @@
 	<file src="textures/sky/sky20.dds" type="client" />
 	<file src="textures/sky/sky21.dds" type="client" />
 	<file src="textures/sky/sky22.dds" type="client" />
-	<file src="textures/sky/sky23.dds" type="client" />
 
 	<!-- animated textures  -->
 	<file src="textures/water/water_caustic_1.png" type="client"/>

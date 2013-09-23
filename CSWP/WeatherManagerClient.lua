@@ -26,17 +26,13 @@ local showGrassShaderClient = "false"
 local shaderKey = "F3" -- all shader enable/disable shortkey
 
 -- //shader variables // --
+local skyBoxTexture1, skyBoxTexture2
 local dayTime = ""
 local weather = ""
 local temperature = 12
 
 -- SkyBox
 local hour, minute, lastMinute, second, getLastTick = 0, 0, 0, 0, 0
-local skyTextures = {}
-
-for i = 0, 23, 1 do
-	skyTextures[i] = dxCreateTexture("textures/sky/sky" .. i .. ".dds")
-end
 
 function liveUpdate()
 	hour, minute = getTime()
@@ -60,18 +56,6 @@ function liveUpdate()
 	skyRotZ = math.rad((timeAspect) * 360)
 	getLastTick = getTickCount()
 	lastMinute = minute
-	
-	if (hour and minute) then
-		local comingHour = hour + 1
-		
-		if (comingHour > 23) then
-			comingHour = 0
-		end
-		
-		fadeValue = ((1/60) * minute)			
-		skyBoxTexture1 = skyTextures[hour]
-		skyBoxTexture2 = skyTextures[comingHour]
-	end
 	
 	-- debug
 	local timeText = (string.format("%02d", hour)..":"..string.format("%02d", minute))
@@ -108,6 +92,10 @@ function weatherManager(serverTable)
 		
 		if (serverTable.temperature) then
 			setTemperature(serverTable.temperature)
+		end
+		
+		if (serverTable.skyTextures) then
+			setSkyTextures(serverTable.skyTextures)
 		end
 		
 		if (serverTable.serverWeatherStats) then
@@ -409,6 +397,19 @@ end
 
 function getCSWPWeather()
 	return weather
+end
+
+-- // Sky textures // --
+function setSkyTextures(skyTextures)
+	if (skyTextures) then
+		local skyTex01, skyTex02 = unpack(skyTextures)
+		skyBoxTexture1 = skyTex01
+		skyBoxTexture2 = skyTex02
+	end
+end
+
+function getSkyTextures()
+	return skyBoxTexture1, skyBoxTexture2
 end
 
 -- // Temperature // --

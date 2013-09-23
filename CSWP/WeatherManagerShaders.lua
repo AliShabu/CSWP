@@ -16,8 +16,8 @@ local sx, sy, sz = 0, 0, 0 -- real sun position in relation to player
 -- SKYBOX
 local skyBoxShader, skyBoxTec = nil, nil
 local skyBox
-skyBoxTexture1 = dxCreateTexture("textures/sky/sky9.dds")
-skyBoxTexture2 = dxCreateTexture("textures/sky/sky9.dds")
+local skyTextures = {}
+local skyBoxTexture1, skyBoxTexture2
 fadeValue = 0
 local skyboxScale = 500
 local skyboxID = 15057
@@ -131,6 +131,10 @@ local deletingTextures = {"lamp_shad_64", "shad_ped", "shad_bike", "shad_car", "
 -- SCRIPT
 addEventHandler("onClientResourceStart", resourceRoot,
 function()
+
+	for i = 1, 22, 1 do
+		skyTextures[i] = dxCreateTexture("textures/sky/sky" .. i .. ".dds")
+	end
 	--dxSetTestMode("low_mem") -- test mode (none, no_mem, low_mem, no_shader)
 	resetFogDistance()
 	resetSunSize()
@@ -556,6 +560,9 @@ function render()
 		ssx, ssy = getScreenFromWorldPosition(sx, sy, sz, 0.5, true)
 		sx, sy, sz = unpack(getSunPosition())
 		px, py, pz = getElementPosition(getLocalPlayer())
+		local skyTex01, skyTex02 = getSkyTextures()
+		skyBoxTexture1 = skyTextures[skyTex01]
+		skyBoxTexture2 = skyTextures[skyTex02]
 		
 		setFarClipDistance(fogEnd)
 		setFogDistance(fogStart)
