@@ -218,6 +218,25 @@ float4 MTACalcGTAVehicleDiffuse( float3 WorldNormal, float4 InDiffuse )
     return OutDiffuse;
 }
 
+float4 MTACalcGTAVehicleDiffuse2( float3 WorldNormal, float4 InDiffuse, float3 lightDirection)
+{
+    // Calculate diffuse color by doing what D3D usually does
+    float4 ambient  = gAmbientMaterialSource  == 0 ? gMaterialAmbient  : InDiffuse;
+    float4 diffuse  = gDiffuseMaterialSource  == 0 ? gMaterialDiffuse  : InDiffuse;
+    float4 emissive = gEmissiveMaterialSource == 0 ? gMaterialEmissive : InDiffuse;
+
+    float4 TotalAmbient = ambient * ( gGlobalAmbient + gLightAmbient );
+
+    // Add the strongest light
+    float DirectionFactor = max(0,dot(WorldNormal, -lightDirection ));
+    float4 TotalDiffuse = ( diffuse * gLightDiffuse * DirectionFactor );
+
+    float4 OutDiffuse = saturate(TotalDiffuse + TotalAmbient + emissive);
+    OutDiffuse.a *= diffuse.a;
+
+    return OutDiffuse;
+}
+
 float4 MTACalcGTADynamicDiffuse( float3 WorldNormal, float4 InDiffuse, float3 LightDirection )
 {
     // Calculate diffuse color by doing what D3D usually does

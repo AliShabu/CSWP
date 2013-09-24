@@ -165,12 +165,12 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	if (lightColor.g < shadowColor.g) {lightColor.g = shadowColor.g;}
 	if (lightColor.b < shadowColor.b) {lightColor.b = shadowColor.b;}
 	
-	float4 originalColor = MTACalcGTAVehicleDiffuse(input.worldNormal, mainColor);
-	float4 finalColor = mainColor * lightColor * originalColor * finalSkyColor;
-	finalColor *= ambientColor * ambientIntensity;
-	finalColor.rgb *= 3;
+	float4 carColor = lightColor * mainColor;
+	float4 originalColor = MTACalcGTAVehicleDiffuse2(input.worldNormal, mainColor, input.lightDirection);
+	originalColor *= carColor * finalSkyColor * ambientColor * ambientIntensity;
+	originalColor.rgb *= 3;
 	
-	return finalColor;
+	return originalColor;
 }
 
 technique CarShader

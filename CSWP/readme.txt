@@ -59,7 +59,14 @@ Planned features:
 
 Known Bugs:
 --------------------------------------------------------------------------
-- cars lost her color, caused by using gTexture0
+- sun artifacts on skytexture
+- some texture bleeding in water shader
+- some artifacts if you you look trough transparent textures in water direction
+- some normal artifacts on some road normals
+
+fixed Bugs:
+--------------------------------------------------------------------------
+- cars lost her color, caused by using gTexture0 (fixed)
 
 Credits:
 --------------------------------------------------------------------------
