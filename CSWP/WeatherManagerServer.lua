@@ -1,6 +1,6 @@
 --//WEATHER MANAGER//--
 
-local isDebug = "false"
+local weatherForecasts = {}
 
 -- // Main // --
 
@@ -13,7 +13,7 @@ local settingsTable = {}
 local currentDayTime = "day"
 local currentWeather = "sunny"
 local weatherStates = {"hot", "sunny", "cloudy", "rainy", "stormy"}
-local hour, minute = 0, 0
+local comingHour, hour, minute = 0, 0, 0
 local currentHour = nil
 local gameSpeed = 1
 
@@ -24,7 +24,7 @@ addEventHandler("onResourceStart", resourceRoot, initWeather)
 
 function updateTime()
 	hour, minute = getTime()
-	local comingHour = hour + 1
+	comingHour = hour + 1
 	
 	if (comingHour > 23) then
 		comingHour = 0
@@ -34,9 +34,6 @@ function updateTime()
 	gameSpeed = getGameSpeed()
 	local currentMinuteSpeed = 1000/gameSpeed
 	setMinuteDuration(currentMinuteSpeed)
-	
-	currentWeatherTable = weatherSettings["_" .. getWeather()]["_" .. hour]
-	nextWeatherTable = weatherSettings["_" .. getWeather()]["_" .. comingHour]
 	
 	handleLightColor()
 	handleAmbientColor()
@@ -212,13 +209,21 @@ function handleTemperature()
 end
 
 function handleStats()
-	weatherTable.serverWeatherStats = {getDayTime(), getWeather()}
+	weatherTable.serverWeatherStats = {getDayTime(), getCSWPWeather(hour)}
 end
 
 function handleDynamicWeather()
+	if (hour == 0) or (#weatherForecasts == 0) then
+		for i = 0, 23, 1 do
+			local weatherVar = math.random(1, 5)
+			weatherForecasts[i] = weatherStates[weatherVar]
+		end
+	end
+	
 	if (currentHour ~= hour) then
-		local weatherVar = math.random(1, 5)
-		setWeather(weatherStates[weatherVar])
+		currentWeatherTable = weatherSettings["_" .. getCSWPWeather(hour)]["_" .. hour]
+		nextWeatherTable = weatherSettings["_" .. getCSWPWeather(comingHour)]["_" .. comingHour]
+		setCSWPWeather(weatherForecasts[hour])
 		currentHour = hour
 	end
 end
@@ -258,19 +263,12 @@ function getDayTime()
 	return currentDayTime
 end
 
-function setWeather(weather)
-	if (weather) then
-		currentWeather = weather
+function setCSWPWeather(inWeather)
+	if (inWeather) then
+		currentWeather = inWeather
 	end
 end
 
-function getWeather()
-	return currentWeather
+function getCSWPWeather(inHour)
+	return weatherForecasts[inHour]
 end
-
-function debugWeather()
-	if (isDebug == "true") then
-		outputChatBox("Daytime: " .. getDayTime() .. ", Weather: " .. getWeather(), root)
-	end
-end
-setTimer(debugWeather, 15000, 0)

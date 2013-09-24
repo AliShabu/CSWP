@@ -32,8 +32,8 @@ ambientColor = {0.82, 0.79, 0.77, 1.0}
 local ambientIntensity = 1.0
 local lightShiningPower = 0.6
 local lightBumpMapFactor = 0.6
-fogStart = 800
-local fogEnd = 3500
+fogStart = 200
+local fogEnd = 2000
 
 -- SHADOWS
 local shadowShader, shadowTec = nil, nil
@@ -43,9 +43,10 @@ local godrayShader, godrayTec = nil, nil
 local sightClearToSun = "false"
 local godRayLength = 0.0 --default
 local minGodRayLength = 0.0
-local maxGodRayLength = 0.15
-local fadeStep = 0.01
-local godRayStrength = 0.4
+local maxGodRayLength = 0.3
+local fadeStep = 0.015
+local godRayStrength = 0.45
+local godRaySamples = 24
 
 -- WATER
 local waterNormal = dxCreateTexture("textures/water/normal.png")
@@ -207,13 +208,13 @@ function setShaders()
 			if (not shadowShader) then 
 				shadowShader, shadowTec = dxCreateShader("shaders/shadows.fx", 0, 1000, false, "all")
 					
-				if (shadowShader) and (depthShader) then
+				if (shadowShader) then
 					engineApplyShaderToWorldTexture(shadowShader, "*")
 					for key, value in ipairs(excludingTextures) do
 						engineRemoveShaderFromWorldTexture(shadowShader, excludingTextures[key])
 					end
 				else
-					outputChatBox("Could not create all shadow shaders. Please use debugscript 3")
+					outputChatBox("Could not create shadow shader. Please use debugscript 3")
 				end
 			end
 		end
@@ -485,6 +486,7 @@ function updateShaders()
 			dxSetShaderValue(godrayShader, "ScreenSource", myScreenSource)
 			dxSetShaderValue(godrayShader, "godRayLength", getGodRayLength())
 			dxSetShaderValue(godrayShader, "godRayStrength", godRayStrength)
+			dxSetShaderValue(godrayShader, "godRaySamples", godRaySamples)
 			dxSetShaderValue(godrayShader, "sunColor", lightColor)
 
 			dxDrawImage(0, 0, screenWidth, screenHeight, godrayShader)

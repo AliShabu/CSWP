@@ -6,10 +6,11 @@
 texture ScreenSource;
 
 float2 sunPos = float2(0, 0);
-float godRayStartOffset = 1.0f;
+float godRayStartOffset = 1;
 float godRayLength = 0;
 float godRayStrength = 0;
-float4 sunColor = float4(0.0, 0.0, 0.0, 0.0);
+float4 sunColor = float4(0, 0, 0, 1);
+static int godRaySamples = 24;
 
 sampler MainSampler = sampler_state
 {
@@ -19,11 +20,6 @@ sampler MainSampler = sampler_state
     MipFilter = Linear;
     AddressU = Mirror;
     AddressV = Mirror;
-};
-
-sampler ColorSampler = sampler_state
-{
-    Texture = <gTexture0>;
 };
 
 float4 darken(float4 color)
@@ -47,14 +43,14 @@ float4 blur(float2 texCoords, float4 color)
 {	
 	texCoords -= sunPos;
 	
-    for(int i=0; i < 16; i++) {
-    	float scale = godRayStartOffset + godRayLength*(i/(float) (16-1));
+    for(int i=0; i < godRaySamples; i++) {
+    	float scale = godRayStartOffset + godRayLength * (i / (float)(godRaySamples - 1));
     	color += tex2D(MainSampler, texCoords * scale + sunPos );
    	}
 	
-	color /= 17;
+	color /= godRaySamples + 1;
 	
-	float value = (color.r + color.g + color.b)/3;
+	float value = (color.r + color.g + color.b) / 3;
 	color.r = value;
 	color.g = value;
 	color.b = value;
@@ -74,7 +70,7 @@ float4 GodRayPixelShader(float2 texCoords : TEXCOORD) : COLOR
 	float4 color2 = blur(texCoords, color1);
 	float4 color3 = tex2D(MainSampler, texCoords);
 	
-	float4 finalColor = saturate(((color1 + color2) * sunColor)/2);
+	float4 finalColor = saturate(((color1 + color2) * sunColor) / 2);
 	finalColor.a = godRayStrength;
 	
 	return finalColor;

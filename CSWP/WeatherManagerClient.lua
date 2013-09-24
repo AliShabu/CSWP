@@ -402,9 +402,7 @@ end
 -- // Sky textures // --
 function setSkyTextures(skyTextures)
 	if (skyTextures) then
-		local skyTex01, skyTex02 = unpack(skyTextures)
-		skyBoxTexture1 = skyTex01
-		skyBoxTexture2 = skyTex02
+		skyBoxTexture1, skyBoxTexture2 = unpack(skyTextures)
 	end
 end
 
