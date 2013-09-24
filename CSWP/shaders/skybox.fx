@@ -36,8 +36,8 @@ sampler SunSampler = sampler_state
 	MinFilter = Linear;
     MagFilter = Linear;
     MipFilter = Linear;
-	AddressU = Clamp;
-    AddressV = Clamp;
+	AddressU =  Mirror;
+    AddressV = Mirror;
 };
 
 float3x3 eulRotate(float3 Rotate)
@@ -108,17 +108,18 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	skyColor /= 1.2;
 	
 	// sun 
-	input.NormalPosition.z *= 1.5;
 	float3 NormalPosition = normalize(input.NormalPosition);
 	float4 sunTexture = tex2D(SunSampler, input.SunTexCoords);
 
     float sunDot = dot(input.LightDirection, NormalPosition);	
-	vector rays = (0.3 * sunSize) * pow(max(0.0, sunDot), 60);
+	vector rays = (0.3 * sunSize) * pow(max(0.001, sunDot), 360);
 	rays *= sunTexture;
     vector light = (0.1 * sunSize) * pow(max(0.0001, sunDot), 360);
 	light *= sunTexture;
 	
-	float4 sunObject = sunColor * (light + rays);
+	float4 sunObject = saturate(sunColor * (light + rays));
+	sunObject.rgb *= 2;
+	
 	float4 finalColor = float4(skyColor.rgb + sunObject.rgb, 1);
 	
 	return finalColor;

@@ -61,16 +61,15 @@ float4 blur(float2 texCoords, float4 color)
 	
 	color.a = 1;
 	
-	return color;
+	return color * sunColor;
 }
 
 float4 GodRayPixelShader(float2 texCoords : TEXCOORD) : COLOR
 {
 	float4 color1 = tex2D(MainSampler, texCoords);
 	float4 color2 = blur(texCoords, color1);
-	float4 color3 = tex2D(MainSampler, texCoords);
 	
-	float4 finalColor = saturate(((color1 + color2) * sunColor) / 2);
+	float4 finalColor = saturate((color1 + color2) / 2);
 	finalColor.a = godRayStrength;
 	
 	return finalColor;

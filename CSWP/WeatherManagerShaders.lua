@@ -45,7 +45,7 @@ local godRayLength = 0.0 --default
 local minGodRayLength = 0.0
 local maxGodRayLength = 0.3
 local fadeStep = 0.015
-local godRayStrength = 0.45
+local godRayStrength = 0.6
 local godRaySamples = 24
 
 -- WATER
@@ -559,7 +559,7 @@ addEventHandler("onClientPreRender", root, updateShaders)
 function render()
 	if (getShowShadersServer() == "true") and (getShowShadersClient() == "true") then
 		camX, camY, camZ, camRotX, camRotY, camRotZ = getCameraMatrix()
-		ssx, ssy = getScreenFromWorldPosition(sx, sy, sz, 0.5, true)
+		ssx, ssy = getScreenFromWorldPosition(sx, sy, sz, 0.3, true)
 		sx, sy, sz = unpack(getSunPosition())
 		px, py, pz = getElementPosition(getLocalPlayer())
 		local skyTex01, skyTex02 = getSkyTextures()
@@ -582,7 +582,7 @@ function render()
 		setSkyGradient(skyR * 128, skyG * 128, skyB * 128, skyR *255, skyG *255, skyB *255)
 		
 		if (godrayShader) and (fakeSun) then			
-			if (isLineOfSightClear(px, py, pz, sx, sy, sz, true, true, true, true, false, false, false, nil)) then
+			if (isLineOfSightClear(camX, camY, camZ, sx, sy, sz, true, true, true, true, false, false, false, nil)) and (ssx) and (ssy) then
 				sightClearToSun = "true"
 			else
 				sightClearToSun = "false"

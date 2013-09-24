@@ -57,6 +57,8 @@ function liveUpdate()
 	getLastTick = getTickCount()
 	lastMinute = minute
 	
+	fadeValue = ((1/60) * minute) 
+	
 	-- debug
 	local timeText = (string.format("%02d", hour)..":"..string.format("%02d", minute))
 	dxDrawText(timeText, 25, 25, screenWidth, screenHeight, tocolor(255, 255, 255, 255), 1, "pricedown")
