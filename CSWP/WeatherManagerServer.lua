@@ -35,6 +35,9 @@ function updateTime()
 	local currentMinuteSpeed = 1000/gameSpeed
 	setMinuteDuration(currentMinuteSpeed)
 	
+	currentWeatherTable = weatherSettings["_" .. getCSWPWeather(hour)]["_" .. hour]
+	nextWeatherTable = weatherSettings["_" .. getCSWPWeather(comingHour)]["_" .. comingHour]
+	
 	handleLightColor()
 	handleAmbientColor()
 	handleSkyTexture()
@@ -209,7 +212,7 @@ function handleTemperature()
 end
 
 function handleStats()
-	weatherTable.serverWeatherStats = {getDayTime(), getCSWPWeather(hour)}
+	weatherTable.serverWeatherStats = {getDayTime(), getCSWPWeather(hour), hour}
 end
 
 function handleDynamicWeather()
@@ -221,8 +224,6 @@ function handleDynamicWeather()
 	end
 	
 	if (currentHour ~= hour) then
-		currentWeatherTable = weatherSettings["_" .. getCSWPWeather(hour)]["_" .. hour]
-		nextWeatherTable = weatherSettings["_" .. getCSWPWeather(comingHour)]["_" .. comingHour]
 		setCSWPWeather(weatherForecasts[hour])
 		currentHour = hour
 	end

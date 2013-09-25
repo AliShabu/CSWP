@@ -18,7 +18,7 @@ local skyBoxShader, skyBoxTec = nil, nil
 local skyBox
 local skyTextures = {}
 local skyBoxTexture1, skyBoxTexture2
-fadeValue = 0
+local fadeValue = 0
 local skyboxScale = 500
 local skyboxID = 15057
 local skyboxHeight = skyboxScale/2
@@ -565,6 +565,7 @@ function render()
 		local skyTex01, skyTex02 = getSkyTextures()
 		skyBoxTexture1 = skyTextures[skyTex01]
 		skyBoxTexture2 = skyTextures[skyTex02]
+		fadeValue = getFadeValue()
 		
 		setFarClipDistance(fogEnd)
 		setFogDistance(fogStart)

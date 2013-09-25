@@ -9,6 +9,7 @@ float3 camPos = float3(1, 1, 1);
 float3 sunPos = float3(0, 0, 0);
 float3 skyRotate = float3(0, 0, 0);
 float fadeValue = 0;
+string weather = "";
 
 samplerCUBE SkyCubeSampler1 = sampler_state
 {
@@ -113,12 +114,12 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 
     float sunDot = dot(input.LightDirection, NormalPosition);	
 	vector rays = (0.3 * sunSize) * pow(max(0.001, sunDot), 360);
-	rays *= sunTexture;
     vector light = (0.1 * sunSize) * pow(max(0.0001, sunDot), 360);
-	light *= sunTexture;
 	
 	float4 sunObject = saturate(sunColor * (light + rays));
 	sunObject.rgb *= 2;
+	
+	//if (weather == "cloudy" || weather == "rainy" || weather == "stormy") {sunObject.rgb *= skyColor;}
 	
 	float4 finalColor = float4(skyColor.rgb + sunObject.rgb, 1);
 	

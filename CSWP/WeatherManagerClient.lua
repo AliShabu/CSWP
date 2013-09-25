@@ -26,7 +26,9 @@ local showGrassShaderClient = "false"
 local shaderKey = "F3" -- all shader enable/disable shortkey
 
 -- //shader variables // --
+local lastSyncedHour = nil
 local skyBoxTexture1, skyBoxTexture2
+local fadeValue = 0
 local dayTime = ""
 local weather = ""
 local temperature = 12
@@ -56,8 +58,6 @@ function liveUpdate()
 	skyRotZ = math.rad((timeAspect) * 360)
 	getLastTick = getTickCount()
 	lastMinute = minute
-	
-	fadeValue = ((1/60) * minute) 
 	
 	-- debug
 	local timeText = (string.format("%02d", hour)..":"..string.format("%02d", minute))
@@ -373,10 +373,31 @@ end)
 
 function setWeatherStats(serverWeatherStats)
 	if (serverWeatherStats) then
-		local serverDayTime, serverWeather = unpack(serverWeatherStats)
+		local serverDayTime, serverWeather, syncedHour = unpack(serverWeatherStats)
 		setDayTime(serverDayTime)
 		setCSWPWeather(serverWeather)
+		setSyncedHour(syncedHour)
 	end
+end
+
+function setSyncedHour(inHour)
+	if (inHour) then
+		lastSyncedHour = inHour
+	end
+end
+
+function getSyncedHour()
+	return lastSyncedHour
+end
+
+function getFadeValue()
+	if (lastSyncedHour == hour) then
+		fadeValue = ((1/60) * minute)
+	else
+		fadeValue = 1
+	end
+	
+	return fadeValue
 end
 
 -- // Daytime // --
