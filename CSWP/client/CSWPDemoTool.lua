@@ -1,3 +1,20 @@
+--[[
+		////////////////	////////////////	////		   ////    //////////////// 
+	   ///////////////	   ///////////////	   ////			  ////    //////////////// 
+	  ////				  ////				  ////			 ////    ////		 ////
+	 ////				 //////////////		 ////   //		////    //////////////// 
+	////						  ////		////  // //    ////    //////////////// 
+   //////////////	   //////////////	   ////////   ////////    //// 
+  //////////////	  //////////////	  ////////   ////////    ////
+  
+					Community Shader & Weather Pack
+						  Open Source (GPLv3)
+			Latest source at: https://github.com/Samake/cswp
+			
+	File: CSWPDemoTool.lua
+	Author: Sam@ke
+--]]
+
 local screenWidth, screenHeight = guiGetScreenSize()
 local player = getLocalPlayer()
 local px, py, pz, prx, pry, prz

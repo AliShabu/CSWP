@@ -1,8 +1,21 @@
---//WEATHER MANAGER//--
+--[[
+		////////////////	////////////////	////		   ////    //////////////// 
+	   ///////////////	   ///////////////	   ////			  ////    //////////////// 
+	  ////				  ////				  ////			 ////    ////		 ////
+	 ////				 //////////////		 ////   //		////    //////////////// 
+	////						  ////		////  // //    ////    //////////////// 
+   //////////////	   //////////////	   ////////   ////////    //// 
+  //////////////	  //////////////	  ////////   ////////    ////
+  
+					Community Shader & Weather Pack
+						  Open Source (GPLv3)
+			Latest source at: https://github.com/Samake/cswp
+			
+	File: CSWPManagerS.lua
+	Author: Sam@ke
+--]]
 
 local weatherForecasts = {}
-
--- // Main // --
 
 -- // Settings // --
 local refreshTime = 1000 -- how often should be refreshed and synced to clients 

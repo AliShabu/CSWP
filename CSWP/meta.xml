@@ -1,31 +1,42 @@
 <meta>
-	<info name ="CSWP" description="Community Shader Weather Pack" version="0.1" type="script" author="Community"/>
+	<info name ="CSWP" description="Community Shader Weather Pack" version="0.2" type="script" author="CSWP"/>
 	<min_mta_version client="1.3.3" server="1.3.3"/>
 	
-	<config src="help.xml" type="client"/>
+	<config src="misc/help.xml" type="client"/>
 	
 	<!-- 3rd party resources  -->
 	<include resource="freecam" />
 	
 	<!-- server scripts  -->
-	<script src="WeatherManagerTables.lua" type="server"/>
-	<script src="WeatherManagerServer.lua" type="server"/>
+	<script src="server/CSWPVariablesS.lua" type="server"/>
+	<script src="server/CSWPWeatherTables.lua" type="server"/>
+	<script src="server/CSWPManagerS.lua" type="server"/>
 	
 	<!-- shared scripts  -->
-	<script src="WeatherManagerUtils.lua" type="shared"/>
+	<script src="shared/CSWPUtils.lua" type="shared"/>
 	
 	<!-- client scripts  -->
-	<script src="WeatherManagerClient.lua" type="client"/>
-	<script src="WeatherManagerShaders.lua" type="client"/>
-	<script src="WeatherManagerGUI.lua" type="client"/>
-	<script src="Benchmark.lua" type="client"/>
-	<script src="Demo.lua" type="client"/>
+	<script src="client/CSWPVariablesC.lua" type="client"/>
+	<script src="client/CSWPManagerC.lua" type="client"/>
+	<script src="client/CSWPShaderManager.lua" type="client"/>
+	<script src="client/CSWPShaderSkyBox.lua" type="client"/>
+	<script src="client/CSWPShaderDynamicLight.lua" type="client"/>
+	<script src="client/CSWPShaderShadows.lua" type="client"/>
+	<script src="client/CSWPShaderGodrays.lua" type="client"/>
+	<script src="client/CSWPShaderWater.lua" type="client"/>
+	<script src="client/CSWPShaderVehicles.lua" type="client"/>
+	<script src="client/CSWPShaderGlass.lua" type="client"/>
+	<script src="client/CSWPShaderGrass.lua" type="client"/>
+	<script src="client/CSWPShaderSSAO.lua" type="client"/>
+	<script src="client/CSWPShaderLightning.lua" type="client"/>
+	<script src="client/CSWPGUI.lua" type="client"/>
+	<script src="client/CSWPStorageXML.lua" type="client"/>
+	<script src="client/CSWPBenchmark.lua" type="client"/>
+	<script src="client/CSWPDemoTool.lua" type="client"/>
 
 	<!-- objects  -->
 	<file src="models/skybox/skybox_model.dff" type="client" />
 	<file src="models/skybox/skybox_model.txd" type="client" />
-	<file src="models/clouds/clouds.dff" type="client" />
-	<file src="models/clouds/clouds.txd" type="client" />
 	
 	<!-- textures  -->
 	<file src="textures/water/normal.png" type="client"/>

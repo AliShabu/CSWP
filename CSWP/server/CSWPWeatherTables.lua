@@ -1,4 +1,19 @@
--- // WEATHER-TABLES // --
+--[[
+		////////////////	////////////////	////		   ////    //////////////// 
+	   ///////////////	   ///////////////	   ////			  ////    //////////////// 
+	  ////				  ////				  ////			 ////    ////		 ////
+	 ////				 //////////////		 ////   //		////    //////////////// 
+	////						  ////		////  // //    ////    //////////////// 
+   //////////////	   //////////////	   ////////   ////////    //// 
+  //////////////	  //////////////	  ////////   ////////    ////
+  
+					Community Shader & Weather Pack
+						  Open Source (GPLv3)
+			Latest source at: https://github.com/Samake/cswp
+			
+	File: CSWPWeatherTables.lua
+	Author: Sam@ke
+--]]
 
 --[[
 Including 120 weather settings (5 themes per each hour) (hot, sunny, cloudy, rainy, stormy)

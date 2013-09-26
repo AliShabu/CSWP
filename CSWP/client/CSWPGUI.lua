@@ -1,3 +1,20 @@
+--[[
+		////////////////	////////////////	////		   ////    //////////////// 
+	   ///////////////	   ///////////////	   ////			  ////    //////////////// 
+	  ////				  ////				  ////			 ////    ////		 ////
+	 ////				 //////////////		 ////   //		////    //////////////// 
+	////						  ////		////  // //    ////    //////////////// 
+   //////////////	   //////////////	   ////////   ////////    //// 
+  //////////////	  //////////////	  ////////   ////////    ////
+  
+					Community Shader & Weather Pack
+						  Open Source (GPLv3)
+			Latest source at: https://github.com/Samake/cswp
+			
+	File: CSWPGUI.lua
+	Author: Sam@ke
+--]]
+
 local screenWidth, screenHeight = guiGetScreenSize()
 local shaderGUIKey = "F2"
 local guiBarText = "CSWP - Shader Panel"
