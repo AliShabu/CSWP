@@ -166,7 +166,7 @@ weatherSettings = {
 		-- // 09:00 // --
 		_9 = {
 			lightColor = {1, 0.9, 0.45, 1.0},
-			lightAmbient = {0.75, 0.72, 0.55, 1.0},
+			lightAmbient = {0.75, 0.72, 0.6, 1.0},
 			skyTexture = 1,
 			fogStart = 380,
 			rainLevel = 0,
@@ -178,7 +178,7 @@ weatherSettings = {
 		-- // 10:00 // --
 		_10 = {
 			lightColor = {1, 0.9, 0.45, 1.0},
-			lightAmbient = {0.77, 0.75, 0.6, 1.0},
+			lightAmbient = {0.8, 0.78, 0.7, 1.0},
 			skyTexture = 2,
 			fogStart = 410,
 			rainLevel = 0,
@@ -189,8 +189,8 @@ weatherSettings = {
 		
 		-- // 11:00 //
 		_11 = {
-			lightColor = {1, 0.9, 0.45, 1.0},
-			lightAmbient = {0.84, 0.8, 0.6, 1.0},
+			lightColor = {1, 0.9, 0.6, 1.0},
+			lightAmbient = {0.84, 0.8, 0.7, 1.0},
 			skyTexture = 3,
 			fogStart = 430,
 			rainLevel = 0,
@@ -456,8 +456,8 @@ weatherSettings = {
 
 		-- // 09:00 // --
 		_9 = {
-			lightColor = {1, 0.9, 0.45, 1.0},
-			lightAmbient = {0.75, 0.72, 0.55, 1.0},
+			lightColor = {1, 0.9, 0.6, 1.0},
+			lightAmbient = {0.75, 0.72, 0.65, 1.0},
 			skyTexture = 7,
 			fogStart = 410,
 			rainLevel = 0,
@@ -516,8 +516,8 @@ weatherSettings = {
 		
 		-- // 14:00 // --
 		_14 = {
-			lightColor = {1, 0.9, 0.45, 1.0},
-			lightAmbient = {0.85, 0.83, 0.6, 1.0},
+			lightColor = {1, 0.9, 0.6, 1.0},
+			lightAmbient = {0.85, 0.83, 0.65, 1.0},
 			skyTexture = 2,
 			fogStart = 440,
 			rainLevel = 0,
@@ -528,8 +528,8 @@ weatherSettings = {
 		
 		-- // 15:00 // --
 		_15 = {
-			lightColor = {1, 0.9, 0.45, 1.0},
-			lightAmbient = {0.82, 0.81, 0.5, 1.0},
+			lightColor = {1, 0.9, 0.6, 1.0},
+			lightAmbient = {0.82, 0.81, 0.65, 1.0},
 			skyTexture = 1,
 			fogStart = 410,
 			rainLevel = 0,
@@ -540,8 +540,8 @@ weatherSettings = {
 
 		-- // 16:00 // --
 		_16 = {
-			lightColor = {1, 0.9, 0.45, 1.0},
-			lightAmbient = {0.79, 0.77, 0.55, 1.0},
+			lightColor = {1, 0.9, 0.55, 1.0},
+			lightAmbient = {0.79, 0.77, 0.6, 1.0},
 			skyTexture = 2,
 			fogStart = 380,
 			rainLevel = 0,
@@ -1002,8 +1002,8 @@ weatherSettings = {
 		
 		-- // 06:00 // -- 
 		_6 = {
-			lightColor = {1, 0.82, 0.5, 1.0},
-			lightAmbient = {0.5, 0.46, 0.4, 1.0},
+			lightColor = {0.85, 0.82, 0.6, 1.0},
+			lightAmbient = {0.5, 0.48, 0.44, 1.0},
 			skyTexture = 14,
 			fogStart = 270,
 			rainLevel = 0.4,
@@ -1134,7 +1134,7 @@ weatherSettings = {
 		
 		-- // 17:00 // --
 		_17 = {
-			lightColor = {1, 0.9, 0.45, 1.0},
+			lightColor = {0.8, 0.8, 0.8, 1.0},
 			lightAmbient = {0.69, 0.69, 0.69, 1.0},
 			skyTexture = 11,
 			fogStart = 300,
@@ -1146,7 +1146,7 @@ weatherSettings = {
 		
 		-- // 18:00 // --
 		_18 = {
-			lightColor = {1, 0.82, 0.5, 1.0},
+			lightColor = {0.85, 0.8, 0.75, 1.0},
 			lightAmbient = {0.65, 0.65, 0.65, 1.0},
 			skyTexture = 12,
 			fogStart = 270,
@@ -1158,7 +1158,7 @@ weatherSettings = {
 		
 		-- // 19:00 // --
 		_19 = {
-			lightColor = {1, 0.85, 0.6, 1.0},
+			lightColor = {0.85, 0.8, 0.7, 1.0},
 			lightAmbient = {0.6, 0.6, 0.6, 1.0},
 			skyTexture = 11,
 			fogStart = 240,
@@ -1293,7 +1293,7 @@ weatherSettings = {
 		
 		-- // 06:00 // -- 
 		_6 = {
-			lightColor = {1, 0.82, 0.5, 1.0},
+			lightColor = {0.8, 0.79, 0.6, 1.0},
 			lightAmbient = {0.47, 0.45, 0.45, 1.0},
 			skyTexture = 15,
 			fogStart = 240,

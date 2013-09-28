@@ -15,17 +15,10 @@
 	Author: Sam@ke
 --]]
 
-local screenWidth, screenHeight = guiGetScreenSize()
-local myScreenSource = dxCreateScreenSource(screenWidth, screenHeight)
-
-windVelocity = {0, 0, 0}
-rainLevel = 0
-
 -- CAMERA
 local camX, camY, camZ, camRotX, camRotY, camRotZ -- camera coords
 
 -- SUN
-local sunTex = dxCreateTexture("textures/env/sun.png")
 local fakeSun = nil
 local sunX, sunY, sunZ = 0, 0, 0 -- sun position by server
 local sx, sy, sz = 0, 0, 0 -- real sun position in relation to player
@@ -102,50 +95,6 @@ local grassTex2 = dxCreateTexture("textures/grass/grass2.png")
 -- CLEAR
 local clearShader, clearTec = nil, nil
 
--- TEXTURES
-local glassTextures = { "ws_shopfront1a", "ws_shopfront1b", "ws_skyscraperwin1", "ws_skywins1", "ws_skywinsgreen", "ws_skywins4", "ws_airportwin2", "nt_bonav1",
-                        "ws_airportdoors1", "sf_hospitaldr1", "sf_hospitaldr2", "lomall_ext2_", "sf_nitewindows", "sf_windos_4", "sl_dwntwnvic4", "sl_dwntwndr1",
-                        "mullcar01_law", "vgncorpdoor1_512", "carshowroom1", "poshentrance2_256", "sl_dtwinlights2", "vgndwntwn2_256_256", "poshentrance1_256",
-                        "courthsewin2_128", "courthsedor2_256", "vgnbankbld4_256", "vgnbankbld5_256", "vgsn_nl_strip", "vgnbankbld6_256", "vgnbankbld4_256", "vgnbankbld3_256",
-                        "sw_door10", "247sign1_64", "sw_door10", "starfish_static_lits", "shopwindowlow2_256", "corporate3", "247sign2", "247sign1", "vgnburgwal5_256",
-                        "vgnburgwal3_256", "vgnburger_256", "cluckbell01_law", "casinolights8_128n", "hirisedoor1_256", "gallery01_law", "churchdoor1_lan", "sw_wind17",
-                        "corporate3green_128", "airportwindow02_128", "ws_airportwin3", "sw_genstore", "marinawindow1_256", "marinadoor1_256", "marinawindow2_256",
-                        "frostwin01_law", "ballywindw02_128", "ballywindw01_128", "slidingdoor01_128", "sw_door12", "sanairtex3", "sanairtex2", "mirrwind1_lan",
-                        "sw_wind16", "sanpedocka1", "nt_bonav1_refl", "sl_laglasswall1", "churchwin1_lan", "sl_dwntwnshpfrnt1", "sl_dtwinlights1", "ballywall01_64",
-                        "genwndw01_128", "shody1_256", "marinadoor2_256", "elcid2_256", "sw_door09", "steakhouse_256", "ws_xenon_3", "ws_xenon_2", "ws_xenon_1",
-                        "vgnmetalwall6_256", "vgnmetalwall4_256", "scoreboardvgn_256", "disgraceland1_256", "bailbondvg_256", "ws_xenon_1", "vgnburgwal4_128",
-                        "burgershotmenu256", "burgershotsign1_256", "ottos_sfe", "newindow4", "sw_door10", "ws_japwin", "ws_dom's", "ws_oldershop2", "ws_oldershop1",
-                        "ws_ed_shop3", "ws_ed_shop4", "ws_ed_shop2", "ws_ed_shop10", "ws_w's_shopfront", "ws_archangels_dirty", "sf_window_mod1", "hotel_win1",
-                        "ws_glassnbrassdoor", "deisel_1sfs", "blindzip_law", "sfe_arch6", "sfe_arch8", "sfe_nicearch4", "bevdoor02_law", "garage_win_sfw",
-                        "veding2_64", "veding1_64", "supasave_wintemp", "supasave_sfw", "staddoors1", "policeha02_128", "policeha02black_128", "airportwind03",
-                        "sw_wind02", "sw_door08", "sw_wind05", "sw_wind06", "sw_storewin01", "sjmbwall2", "sw_door15", "sw_wind23", "amity_law", "bbar_stuff2",
-                        "black16", "sw_wind18", "mp_bluemetaldoor_256", "sw_genx4", "sw_locals", "cos_liqbots", "lastripmall1", "sw_warewinx4", "sw_patiodoors",
-                        "sw_wind22", "shopdoor01_law", "flmngo11_128", "flmngo04_256", "flmngo05_256", "sw_realtywin", "sw_confessthru", "sw_wind08", "sw_door16",
-                        "sw_wind13", "sw_wind12", "cj_sweets", "bank_wall4", "sw_dryclean", "sw_furnisign", "sw_dicksounds", "sw_stereosign", "sw_storewin02",
-                        "ws_ammu-awning", "sw_door07", "ws_carshowwin1", "ws_boxhouse_wins7", "ws_boxhouse_wins5", "ws_haightshop1alt", "ws_haightshop1altdoor",
-                        "ws_hoteldoor1", "ws_cinemasign1", "ws_queens1", "grn_window2_16", "ferry_build4", "sw_hardware02", "711shop1", "ws_trainstationwin1",
-                        "ws_glass_balustrade_better", "siliconvalleywins2", "siliconvalleywins1", "siliconvalleywins5", "siliconvalleywins3", "ws_airportwin2",
-                        "ws_airportwin1", "ws_glass_balustrade", "sf_windos_5", "luxorwindow01_128", "skylight_windows", "glasswindow3b_256", "vgssshopnew01",
-                        "vegaswigshop1_256", "souveniers1_256", "sanpshop1", "resaurantsign1_256", "sw_door18", "des_dinerwall", "donut1_sfw", "alleywin4",
-                        "corporate1", "gymshop2_lae", "windblind_law", "century02_la", "yelloconcw_la", "glasfenc1_la", "wolf1", "lawshop3", "lawshop2", "lawshop4",
-                        "cj_sprunk_dirty", "lawshop1", "frostdoor01_law", "comptwindo2", "4winscurt_law", "aanewd", "gangwin1_lae", "comptwindo1", "lasclean1",
-                        "ws_fuckedwin1", "ws_demolishwins1", "glassblock_law"}
-
-local carTextures = {"vehiclegrunge256", "vehiclegeneric256", "vehiclescratch64", "vehiclelights128", "vehiclelightson128", "banshee92wheel32"}
-
-local waterTextures = {"waterclear256"}
-
-local grassTextures = {"txgrass1_1", "txgrass0_1", "txgrass1_0"}
-
--- textures which should rendered but prevent from shaders
-local excludingTextures = {	"cloudmasked", "skybox", "collisionsmoke", "particleskid", "shad_exp", "coronastar", "sfnitewindow_alfa", "sfnitewindows", "monlith_win_tex",
-							"sfxref_lite2c", "dt_scyscrap_door2", "white", "casinolights6lit3_256", "cj_frame_glass", "casinolights1b_128n", "casinolights4_128",
-							"casinolights7_256", "custom_roadsign_text", "bullethitsmoke", "dt_twinklylites", "vgsn_nl_strip", "unnamed", "splash_up1", "splash_up2",
-							"coronaringa", "gensplash", "boatwake1", "boatwake2", "white64", "lasjmslumwin1", "pierwin05_law", "nitwin01_la", "sl_dtwinlights1", "smoke"}
-
--- textures which shouldnt be rendered						
-local deletingTextures = {"lamp_shad_64", "shad_ped", "shad_bike", "shad_car", "shad_heli", "shad_rcbaron"}		
-
 -- SCRIPT
 addEventHandler("onClientResourceStart", resourceRoot,
 function()
@@ -179,6 +128,8 @@ end)
 
 function setShaders()
 	if (getShowShadersServer() == "true") and (getShowShadersClient() == "true") then
+		local excludingTextures = cswpGetExcludingTextures()
+		
 		if (not skyBoxShader) and (getShowSkyboxShaderServer() == "true") and (getShowSkyboxShaderClient() == "true") then
 		
 			if (not skyBox) then
@@ -261,6 +212,7 @@ function setShaders()
 			if (not waterShader) then
 				outputChatBox("Could not create water shader. Please use debugscript 3.")
 			else
+				local waterTextures = cswpGetWaterTextures()
 				for key, value in ipairs(waterTextures) do
 					engineApplyShaderToWorldTexture(waterShader, waterTextures[key])
 				end
@@ -289,6 +241,7 @@ function setShaders()
 			if (not glassShader) then
 				outputChatBox("Could not create glass shader. Please use debugscript 3")
 			else
+				local glassTextures = cswpGetGlassTextures()
 				for key, value in ipairs(glassTextures) do
 					engineApplyShaderToWorldTexture(glassShader, glassTextures[key])
 				end
@@ -301,6 +254,7 @@ function setShaders()
 			if (not grassShader) then
 				outputChatBox("Could not create grass shader. Please use debugscript 3.")
 			else
+				local grassTextures = cswpGetGrassTextures()
 				for key, value in ipairs(grassTextures) do
 					engineApplyShaderToWorldTexture(grassShader, grassTextures[key])
 				end
@@ -313,8 +267,9 @@ function setShaders()
 			if (not clearShader) then
 				outputChatBox("Could not create clear shader. Please use debugscript 3")
 			else
-				for key, value in ipairs(deletingTextures) do
-					engineApplyShaderToWorldTexture(clearShader, deletingTextures[key])
+				local deletedTextures= cswpGetDeletedTextures()
+				for key, value in ipairs(deletedTextures) do
+					engineApplyShaderToWorldTexture(clearShader, deletedTextures[key])
 				end
 			end
 		end
@@ -462,14 +417,13 @@ function updateShaders()
 	
 	if (getShowShadersServer() == "true") and (getShowShadersClient() == "true") then
 
-		dxUpdateScreenSource(myScreenSource)
+		dxUpdateScreenSource(cswpScreenSource)
 		
 		if (skyBoxShader) then
 			dxSetShaderValue(skyBoxShader, "skyBoxTexture1", skyBoxTexture1)
 			dxSetShaderValue(skyBoxShader, "skyBoxTexture2", skyBoxTexture2)
 			dxSetShaderValue(skyBoxShader, "fadeValue", fadeValue)
 			dxSetShaderValue(skyBoxShader, "skyRotate", {skyRotX, skyRotY, skyRotZ})
-			dxSetShaderValue(skyBoxShader, "sunTexture", sunTex)
 			dxSetShaderValue(skyBoxShader, "sunColor", lightColor)
 			dxSetShaderValue(skyBoxShader, "sunPos", {sx, sy, sz})
 			
@@ -486,7 +440,7 @@ function updateShaders()
 			dxSetShaderValue(dynamicLightShader, "ambientIntensity", ambientIntensity)
 			dxSetShaderValue(dynamicLightShader, "lightShiningPower", lightShiningPower)
 			dxSetShaderValue(dynamicLightShader, "bumpMapFactor", lightBumpMapFactor)
-			dxSetShaderValue(dynamicLightShader, "rainLevel", rainLevel)
+			dxSetShaderValue(dynamicLightShader, "rainLevel", cswpGetRainLevel())
 		end
 		
 		if (shadowShader) then
@@ -497,16 +451,16 @@ function updateShaders()
 		
 		if (godrayShader) then		
 			if (ssx) and (ssy) then
-				dxSetShaderValue(godrayShader, "sunPos", {(1/screenWidth)*ssx, (1/screenHeight)*ssy})
+				dxSetShaderValue(godrayShader, "sunPos", {(1/cswpScreenWidth)*ssx, (1/cswpScreenHeight)*ssy})
 			end
 			
-			dxSetShaderValue(godrayShader, "ScreenSource", myScreenSource)
+			dxSetShaderValue(godrayShader, "ScreenSource", cswpScreenSource)
 			dxSetShaderValue(godrayShader, "godRayLength", getGodRayLength())
 			dxSetShaderValue(godrayShader, "godRayStrength", godRayStrength)
 			dxSetShaderValue(godrayShader, "godRaySamples", godRaySamples)
 			dxSetShaderValue(godrayShader, "sunColor", lightColor)
 
-			dxDrawImage(0, 0, screenWidth, screenHeight, godrayShader)
+			dxDrawImage(0, 0, cswpScreenWidth, cswpScreenHeight, godrayShader)
 		end
 		
 		if (waterShader) then
@@ -521,8 +475,8 @@ function updateShaders()
 			dxSetShaderValue(waterShader, "fadeValue", fadeValue)
 			dxSetShaderValue(waterShader, "skyRotate", {skyRotX, skyRotY, skyRotZ})
 			dxSetShaderValue(waterShader, "causticTexture", waterCaustics[waterFrame])
-			dxSetShaderValue(waterShader, "reflectionTexture", myScreenSource)
-			dxSetShaderValue(waterShader, "refractionTexture", myScreenSource)
+			dxSetShaderValue(waterShader, "reflectionTexture", cswpScreenSource)
+			dxSetShaderValue(waterShader, "refractionTexture", cswpScreenSource)
 			dxSetShaderValue(waterShader, "waterColor", waterColor)
 			dxSetShaderValue(waterShader, "sunColor", lightColor)
 			dxSetShaderValue(waterShader, "waterAlpha", waterAlpha)
@@ -555,7 +509,7 @@ function updateShaders()
 			dxSetShaderValue(carShader, "skyBoxTexture2", skyBoxTexture2)
 			dxSetShaderValue(carShader, "skyRotate", {skyRotX, skyRotY, skyRotZ})
 			dxSetShaderValue(carShader, "fadeValue", fadeValue)
-			dxSetShaderValue(carShader, "mainReflectionTexture", myScreenSource);
+			dxSetShaderValue(carShader, "mainReflectionTexture", cswpScreenSource);
 			dxSetShaderValue(carShader, "sunPos", {sx, sy, sz});
 			dxSetShaderValue(carShader, "shadowColor", shadowColor);
 			dxSetShaderValue(carShader, "ambientColor", ambientColor);
@@ -591,9 +545,9 @@ function render()
 		setBlurLevel(0)
 		setSunSize(0)
 		setMoonSize(0)
-		local windX, windY, windZ = unpack(windVelocity)
+		local windX, windY, windZ = unpack(cswpGetWindVelocity())
 		setWindVelocity(windX, windY, windZ)
-		setRainLevel(rainLevel)
+		setRainLevel(cswpGetRainLevel())
 		
 		-- set sky gradient to current light color
 		local skyR, skyG, skyB, skyA = unpack(lightColor)

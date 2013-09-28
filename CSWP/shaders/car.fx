@@ -140,8 +140,8 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
 	input.skyTextureCoordinate.xy = -input.skyTextureCoordinate.xy;
-	float4 skyColor1 = texCUBE(SkyCubeSampler1, input.skyTextureCoordinate.yzx);
-	float4 skyColor2 = texCUBE(SkyCubeSampler2, input.skyTextureCoordinate.yzx);	
+	float4 skyColor1 = texCUBE(SkyCubeSampler1, -input.skyTextureCoordinate.yzx);
+	float4 skyColor2 = texCUBE(SkyCubeSampler2, -input.skyTextureCoordinate.yzx);	
 	float4 finalSkyColor = (skyColor2 * fadeValue) + (skyColor1 * (1 - fadeValue));
 	
 	float4 mainColor = tex2D(MainSampler, input.TexCoord);
@@ -167,7 +167,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	
 	float4 carColor = lightColor * mainColor;
 	float4 originalColor = MTACalcGTAVehicleDiffuse2(input.worldNormal, mainColor, input.lightDirection);
-	originalColor *= carColor * finalSkyColor * ambientColor * ambientIntensity;
+	originalColor *= carColor * finalSkyColor * 2 * ambientColor * ambientIntensity;
 	originalColor.rgb *= 3;
 	
 	return originalColor;

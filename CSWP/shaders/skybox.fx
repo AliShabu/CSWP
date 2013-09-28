@@ -2,7 +2,6 @@
 
 texture skyBoxTexture1;
 texture skyBoxTexture2;
-texture sunTexture;
 float4 sunColor = float4(1, 1, 1, 1);
 float sunSize = 1;
 float3 camPos = float3(1, 1, 1);
@@ -31,16 +30,6 @@ samplerCUBE SkyCubeSampler2 = sampler_state
     AddressV = Clamp;
 };
 
-sampler SunSampler = sampler_state
-{
-    Texture = <sunTexture>;
-	MinFilter = Linear;
-    MagFilter = Linear;
-    MipFilter = Linear;
-	AddressU =  Mirror;
-    AddressV = Mirror;
-};
-
 float3x3 eulRotate(float3 Rotate)
 {
     float cosX,sinX;
@@ -67,17 +56,15 @@ return rot;
 struct VertexShaderInput
 {
     float3 Position : POSITION0;
-	float2 SunTexCoords: TEXCOORD0;
 	float4 Diffuse : COLOR0;
 };
  
 struct VertexShaderOutput
 {
     float4 Position : POSITION0;
-	float2 SunTexCoords: TEXCOORD0;
-    float3 SkyTextureCoords : TEXCOORD1;
-	float3 NormalPosition : TEXCOORD2;
-	float3 LightDirection : TEXCOORD3;
+    float3 SkyTextureCoords : TEXCOORD0;
+	float3 NormalPosition : TEXCOORD1;
+	float3 LightDirection : TEXCOORD2;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
@@ -85,7 +72,6 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     VertexShaderOutput output;
 
 	output.Position = MTACalcScreenPosition(input.Position);
-	output.SunTexCoords = input.SunTexCoords;
 	float4 vertexPosition = mul(float4(input.Position, 1), gWorld);
 	
 	// compute eye vector 	
@@ -110,7 +96,6 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	
 	// sun 
 	float3 NormalPosition = normalize(input.NormalPosition);
-	float4 sunTexture = tex2D(SunSampler, input.SunTexCoords);
 
     float sunDot = dot(input.LightDirection, NormalPosition);	
 	vector rays = (0.3 * sunSize) * pow(max(0.001, sunDot), 360);

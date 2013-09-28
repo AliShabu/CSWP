@@ -1,7 +1,7 @@
 //-- Include some common stuff
 #include "mta-helper.fx"
 
-float Time;
+float Time : Time;
 texture skyBoxTexture1;
 texture skyBoxTexture2;
 float3 skyRotate = float3(0, 0, 0);
@@ -196,22 +196,21 @@ float4 WaterPixelShader(PixelInputType input) : COLOR0
 	float4 causticColor;
 	float4 skyColor;
     float4 color;
-	float timer = (Time/25) * flowSpeed;
+	float timer = (Time/12) * flowSpeed;
 
     // Move the position the water normal is sampled from to simulate moving water.	
-    input.textureCoords.xy += timer;
 	
     // Calculate the projected refraction texture coordinates.
 	reflectTexCoord.x = input.reflectionPosition.x / input.reflectionPosition.w / 2.0f + 0.5f;
     reflectTexCoord.y = -input.reflectionPosition.y / input.reflectionPosition.w / 2.0f + 0.5f;
     refractTexCoord.x = input.refractionPosition.x / input.refractionPosition.w / 2.0f + 0.5f;
     refractTexCoord.y = -input.refractionPosition.y / input.refractionPosition.w / 2.0f + 0.5f;
-	skyBoxReflectTexCoord.x = input.skyTextureCoordinate.x / 1 / 2.0f + 0.5f;
+	skyBoxReflectTexCoord.x = -input.skyTextureCoordinate.x / 1 / 2.0f + 0.5f;
 	skyBoxReflectTexCoord.y = -input.skyTextureCoordinate.y / 1 / 2.0f + 0.5f;
-	skyBoxReflectTexCoord.z = -input.skyTextureCoordinate.z / 1 / 2.0f + 0.5f;
+	skyBoxReflectTexCoord.z = input.skyTextureCoordinate.z / 1 / 2.0f + 0.5f;
     // Sample the normal from the normal map texture.
 	float2 NormalTex = input.textureCoords;
-	NormalTex.y = NormalTex.y  + (sin(NormalTex.y * 10) * 0.01) + timer;
+	NormalTex.y = NormalTex.y  + (sin(NormalTex.y * 5) * 0.03) + timer;
     normalMap = tex2D(NormalSampler, NormalTex);
 
     // Expand the range of the normal from (0,1) to (-1,+1).
@@ -226,8 +225,8 @@ float4 WaterPixelShader(PixelInputType input) : COLOR0
 	CausticTex.y = CausticTex.y  + (sin(CausticTex.y * 10) * 0.01) + timer;
     causticColor = tex2D(CausticSampler, CausticTex);
 	
-	float4 skyColor1 = texCUBE(SkyCubeSampler1, skyBoxReflectTexCoord.yzx);
-	float4 skyColor2 = texCUBE(SkyCubeSampler2, skyBoxReflectTexCoord.yzx);	
+	float4 skyColor1 = texCUBE(SkyCubeSampler1, 1 - skyBoxReflectTexCoord.yzx);
+	float4 skyColor2 = texCUBE(SkyCubeSampler2, 1 - skyBoxReflectTexCoord.yzx);	
 	float4 finalSkyColor = (skyColor2 * fadeValue) + (skyColor1 * (1 - fadeValue));
 	
 	reflectionColor = tex2D(ReflectionSampler, reflectTexCoord) * reflectionStrength;
@@ -247,7 +246,7 @@ float4 WaterPixelShader(PixelInputType input) : COLOR0
 	
 	float distanceFog = saturate((input.Depth - fogStart)/(fogEnd - fogStart));
 	float4 finalColor = lerp(float4(color.rgb, 1), float4(reflectionColor.rgb/2, 1), distanceFog);
-	finalColor.rgb += specularColor.rgb * waterShiningPower;
+	finalColor.rgb += specularColor.rgb * normalMap * waterShiningPower;
 	finalColor.rgb *= waterBrightness;
 	finalColor.a *= waterAlpha;
 	

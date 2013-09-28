@@ -17,6 +17,7 @@
 	
 	<!-- client scripts  -->
 	<script src="client/CSWPVariablesC.lua" type="client"/>
+	<script src="client/CSWPTextures.lua" type="client"/>
 	<script src="client/CSWPManagerC.lua" type="client"/>
 	<script src="client/CSWPShaderManager.lua" type="client"/>
 	<script src="client/CSWPShaderSkyBox.lua" type="client"/>

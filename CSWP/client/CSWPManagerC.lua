@@ -94,11 +94,11 @@ function weatherManager(serverTable)
 		end
 		
 		if (serverTable.windVelocity) then
-			windVelocity = serverTable.windVelocity
+			cswpSetWindVelocity(serverTable.windVelocity)
 		end
 		
 		if (serverTable.rainLevel) then
-			rainLevel = serverTable.rainLevel
+			cswpSetRainLevel(serverTable.rainLevel)
 		end
 		
 		if (serverTable.sunPos) then
